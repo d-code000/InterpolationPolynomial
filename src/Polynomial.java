@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class Polynomial {
@@ -14,7 +13,7 @@ public class Polynomial {
     }
     
     public Polynomial(Double ... coefficients) {
-        setCoefficients(new ArrayList<Double>(List.of(coefficients)));
+        setCoefficients(new ArrayList<>(List.of(coefficients)));
     }
 
     public ArrayList<Double> getCoefficients() {
@@ -49,5 +48,43 @@ public class Polynomial {
             n -= 1;
         }
         return sb.toString();
+    }
+    
+    @Override
+    public boolean equals(Object o) {
+        throw new UnsupportedOperationException();
+    }
+    
+    @Override
+    public int hashCode() {
+        throw new UnsupportedOperationException();
+    }
+    
+    private void deleteIndex(int index) {
+        throw new UnsupportedOperationException();
+    }
+    
+    private Double getIndex(int index) {
+        throw new UnsupportedOperationException();
+    }
+    
+    public static Polynomial plus(Polynomial p1, Polynomial p2) {
+        throw new UnsupportedOperationException();
+    }
+    
+    public static Polynomial minus(Polynomial p1, Polynomial p2) {
+        throw new UnsupportedOperationException();
+    }
+    
+    public static Polynomial times(Polynomial p1, Polynomial p2) {
+        throw new UnsupportedOperationException();
+    }
+    
+    public static Polynomial times(Polynomial p, Double num) {
+        throw new UnsupportedOperationException();
+    }
+    
+    public Double calc(){
+        throw new UnsupportedOperationException();
     }
 }
