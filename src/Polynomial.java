@@ -84,7 +84,7 @@ public class Polynomial {
         throw new UnsupportedOperationException();
     }
     
-    public Double calc(){
+    public Double calc(Double x) {
         throw new UnsupportedOperationException();
     }
 }
