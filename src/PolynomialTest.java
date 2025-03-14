@@ -48,6 +48,12 @@ class PolynomialTest {
     }
     
     @Test
+    void testGetDegree(){
+        Polynomial p = new Polynomial(1.0, 2.0, 3.0);
+        assertEquals(2, p.getDegree());
+    }
+    
+    @Test
     void testPlus(){
         Polynomial p1 = new Polynomial(1.0, 2.0, 3.0);
         Polynomial p2 = new Polynomial(1.0, 2.0, 3.0);
