@@ -1,10 +1,19 @@
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class InterpolatingPolynomial extends Polynomial {
     private final ArrayList<Point2D> points = new ArrayList<>();
+    
+    // TODO: убрать static для кэша
+    // Кэш для значений функции нахождения разделённой разности
+    private static final Map<String, Double> cache = new HashMap<>();
+
+    public void clearCache() {
+        cache.clear();
+    }
     
     @Override
     public void setCoefficients(ArrayList<Double> coefficients) {
@@ -30,10 +39,22 @@ public class InterpolatingPolynomial extends Polynomial {
     public ArrayList<Point2D> getPoints() {
         return new ArrayList<>(points);
     }
+
+    public static Double dividedDifference(Point2D ... points){
+        String key = Arrays.toString(points);
+
+        if (cache.containsKey(key)) {
+            return cache.get(key);
+        }
+        
+        Double result = computeDividedDifference(points);
+        cache.put(key, result);
+        return result;
+    }
     
     // Рекурсивная функция нахождения разделённой разности, реализованная по формулам в README.md
     // Есть проблема оптимизации - мы заново вычисляем то, что вычисляли ранее (решение - можно кэшировать функцию)
-    public static Double dividedDifference(Point2D ... points) {
+    public static Double computeDividedDifference(Point2D ... points) {
         if (points.length == 1) {
             return points[0].getY();
         }
@@ -129,6 +150,6 @@ public class InterpolatingPolynomial extends Polynomial {
             var newPolynomial = calculatePolynomial(points);
             
             coefficients = newPolynomial.getCoefficients();
-        };
+        }
     }
 }
