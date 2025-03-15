@@ -15,25 +15,18 @@ public class InterpolatingPolynomial extends Polynomial {
         cache.clear();
     }
     
-    @Override
-    public void setCoefficients(ArrayList<Double> coefficients) {
-        throw new UnsupportedOperationException(
-                "Модификация коэффициентов недоступна, т.к они расчитываются на основе точек"
-        );
-    }
-    
     public InterpolatingPolynomial() {
         
     }
 
     public InterpolatingPolynomial(ArrayList<Point2D> points) {
         this.points.addAll(points);
-        this.coefficients = calculatePolynomial(points).getCoefficients();
+        setCoefficients(calculatePolynomial(points).getCoefficients());
     }
 
     public InterpolatingPolynomial(Point2D ... points) {
         this.points.addAll(Arrays.asList(points));
-        this.coefficients = calculatePolynomial(points).getCoefficients();
+        setCoefficients(calculatePolynomial(points).getCoefficients());
     }
 
     public ArrayList<Point2D> getPoints() {
@@ -137,10 +130,12 @@ public class InterpolatingPolynomial extends Polynomial {
             additionPolynomial = multiplyPolynomialByBracket(additionPolynomial, points.get(i).getX());
         }
 
-        coefficients = Polynomial.plus(
+        setCoefficients(
+            Polynomial.plus(
                 this,
                 additionPolynomial
-        ).getCoefficients();
+            ).getCoefficients()
+        );
     }
     
     public void removePoint(Point2D point) {
@@ -149,7 +144,7 @@ public class InterpolatingPolynomial extends Polynomial {
         if (points.remove(point)){
             var newPolynomial = calculatePolynomial(points);
             
-            coefficients = newPolynomial.getCoefficients();
+            setCoefficients(newPolynomial.getCoefficients());
         }
     }
 }

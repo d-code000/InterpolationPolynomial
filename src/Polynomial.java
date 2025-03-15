@@ -3,25 +3,25 @@ import java.util.List;
 import java.util.function.BinaryOperator;
 
 public class Polynomial {
-    protected ArrayList<Double> coefficients;
+    private ArrayList<Double> coefficients;
     
     public Polynomial() {
-        this.coefficients = new ArrayList<>(List.of(0.0));
+        setCoefficients(new ArrayList<>(List.of(0.0)));
     }
     
     public Polynomial(ArrayList<Double> coefficients) {
-        this.coefficients = coefficients;
+        setCoefficients(coefficients);
     }
     
     public Polynomial(Double ... coefficients) {
-        this.coefficients = new ArrayList<>(List.of(coefficients));
+        setCoefficients(new ArrayList<>(List.of(coefficients)));
     }
 
     public ArrayList<Double> getCoefficients() {
         return new ArrayList<>(coefficients);
     }
 
-    public void setCoefficients(ArrayList<Double> coefficients) {
+    protected void setCoefficients(ArrayList<Double> coefficients) {
         this.coefficients = coefficients;
     }
     
