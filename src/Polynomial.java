@@ -3,18 +3,18 @@ import java.util.List;
 import java.util.function.BinaryOperator;
 
 public class Polynomial {
-    private ArrayList<Double> coefficients;
+    protected ArrayList<Double> coefficients;
     
     public Polynomial() {
-        setCoefficients(new ArrayList<>(List.of(0.0)));
+        this.coefficients = new ArrayList<>(List.of(0.0));
     }
     
     public Polynomial(ArrayList<Double> coefficients) {
-        setCoefficients(coefficients);
+        this.coefficients = coefficients;
     }
     
     public Polynomial(Double ... coefficients) {
-        setCoefficients(new ArrayList<>(List.of(coefficients)));
+        this.coefficients = new ArrayList<>(List.of(coefficients));
     }
 
     public ArrayList<Double> getCoefficients() {

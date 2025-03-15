@@ -57,4 +57,60 @@ class InterpolatingPolynomialTest {
                 ).getCoefficients()
         );
     }
+    
+    @Test
+    void testCalculatePolynomial() {
+        assertEquals(
+                new ArrayList<>(List.of(2.0, -0.5, 0.5)),
+                InterpolatingPolynomial.calculatePolynomial(
+                        new Point2D.Double(1, 2),
+                        new Point2D.Double(2, 3),
+                        new Point2D.Double(3, 5)
+                ).getCoefficients()
+        );
+    }
+    
+    @Test
+    void testAddPoint() {
+        var ip = new InterpolatingPolynomial();
+        
+        ip.addPoint(new Point2D.Double(1, 2));
+        assertEquals(
+                new ArrayList<>(List.of(2.0)),
+                ip.getCoefficients()
+        );
+        
+        ip.addPoint(new Point2D.Double(2, 3));
+        assertEquals(
+                new ArrayList<>(List.of(1.0, 1.0)),
+                ip.getCoefficients()
+        );
+        
+        ip.addPoint(new Point2D.Double(3, 5));
+        assertEquals(
+                new ArrayList<>(List.of(2.0, -0.5, 0.5)),
+                ip.getCoefficients()
+        );
+    }
+    
+    @Test
+    void testRemovePoint() {
+        var ip = new InterpolatingPolynomial(
+                new Point2D.Double(1, 2),
+                new Point2D.Double(2, 3),
+                new Point2D.Double(3, 5)
+        );
+
+        assertEquals(
+                new ArrayList<>(List.of(2.0, -0.5, 0.5)),
+                ip.getCoefficients()
+        );
+        
+        ip.removePoint(new Point2D.Double(3, 5));
+
+        assertEquals(
+                new ArrayList<>(List.of(1.0, 1.0)),
+                ip.getCoefficients()
+        );
+    }
 }
