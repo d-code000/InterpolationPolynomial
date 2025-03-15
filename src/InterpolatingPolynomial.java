@@ -12,7 +12,10 @@ public class InterpolatingPolynomial extends Polynomial {
     // рекурсивная функция нахождения разделённых разностей, реализованная по формулам в README.md
     // есть проблема оптимизации - мы заново вычисляем то, что вычисляли ранее (решение - можно кэшировать функцию)
     public static Double dividedDifference(Point2D ... points) {
-        if (points.length == 2) {
+        if (points.length == 1) {
+            return points[0].getY();
+        }
+        else if (points.length == 2) {
             return (points[1].getY() - points[0].getY()) / 
                     (points[1].getX() - points[0].getX());
         }
@@ -27,7 +30,7 @@ public class InterpolatingPolynomial extends Polynomial {
                     (points[points.length - 1].getX() - points[0].getX());
         }
         else {
-            throw new IllegalArgumentException("Функция нахождения разделённых разностей требует от 2х точек");
+            throw new IllegalArgumentException("Функция нахождения разделённых разностей требует хотя бы одну точку");
         }
     }
     

@@ -9,6 +9,12 @@ class InterpolatingPolynomialTest {
     @Test
     void testDividedDifference() {
         assertEquals(
+                2,
+                InterpolatingPolynomial.dividedDifference(
+                        new Point2D.Double(1, 2)
+                )
+        );
+        assertEquals(
                 1,
                 InterpolatingPolynomial.dividedDifference(
                         new Point2D.Double(1, 2),
