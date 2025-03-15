@@ -9,8 +9,8 @@ public class InterpolatingPolynomial extends Polynomial {
         return new ArrayList<>(points);
     }
     
-    // рекурсивная функция нахождения разделённых разностей, реализованная по формулам в README.md
-    // есть проблема оптимизации - мы заново вычисляем то, что вычисляли ранее (решение - можно кэшировать функцию)
+    // Рекурсивная функция нахождения разделённой разности, реализованная по формулам в README.md
+    // Есть проблема оптимизации - мы заново вычисляем то, что вычисляли ранее (решение - можно кэшировать функцию)
     public static Double dividedDifference(Point2D ... points) {
         if (points.length == 1) {
             return points[0].getY();
@@ -34,10 +34,21 @@ public class InterpolatingPolynomial extends Polynomial {
         }
     }
     
-    public void addPoint(Point2D point) {
+    // B(x) = A(x) * (x - xi))
+    // Умножение полинома на скобку (x - xi)
+    public static Polynomial multiplyPolynomialByBracket(Polynomial polynomial, Double xi) {
         
+        // A(x) * x
+        var firstCoefficient = polynomial.getCoefficients();
+        firstCoefficient.addFirst(0.0);
+        var firstPolynomial = new Polynomial(firstCoefficient);
         
-        points.add(point);
+        // A(x) * (-xi)
+        var secondPolynomial = new Polynomial(polynomial.getCoefficients());
+        secondPolynomial.times(-xi);
+        
+        return Polynomial.plus(firstPolynomial, secondPolynomial);
     }
+    
     
 }

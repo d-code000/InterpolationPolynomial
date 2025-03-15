@@ -1,6 +1,8 @@
 import org.junit.jupiter.api.Test;
 
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -35,6 +37,24 @@ class InterpolatingPolynomialTest {
                         new Point2D.Double(2, 3),
                         new Point2D.Double(3, 5)
                 )
+        );
+    }
+    
+    @Test
+    void testMultiplyPolynomialByBracket(){
+        assertEquals(
+                new ArrayList<>(List.of(-4.0, 1.0)),
+                InterpolatingPolynomial.multiplyPolynomialByBracket(
+                        new Polynomial(1.0),
+                        4.0
+                ).getCoefficients()
+        );
+        assertEquals(
+                new ArrayList<>(List.of(24.0, -13.0, -1.0, 2.0)),
+                InterpolatingPolynomial.multiplyPolynomialByBracket(
+                        new Polynomial(8.0, -7.0, 2.0),
+                        -3.0
+                ).getCoefficients()
         );
     }
 }
