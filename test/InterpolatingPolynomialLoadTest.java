@@ -27,7 +27,10 @@ class InterpolatingPolynomialLoadTest {
             new InterpolatingPolynomial(points);
             var endTime = System.nanoTime();
             
-            System.out.println(i * startPointsCount + " точек: " + getDurationInSec(startTime, endTime) + " с");
+            System.out.printf(
+                    "Построение нового полинома из %d точек: %.2f c\n",
+                    i * startPointsCount,
+                    getDurationInSec(startTime, endTime));
         }
     }
     
@@ -49,7 +52,7 @@ class InterpolatingPolynomialLoadTest {
                 startPointsCount
         );
         
-        for (int i = 2; i <= 50; i++) {
+        for (int i = 2; i <= 20; i++) {
 
             var startTime = System.nanoTime();
             for (int j = 0; j < startPointsCount; j++) {
