@@ -67,68 +67,58 @@ public class InterpolatingPolynomial extends Polynomial {
     
     // B(x) = A(x) * (x - xi))
     // Умножение полинома на скобку (x - xi)
-    public static Polynomial multiplyPolynomialByBracket(Polynomial polynomial, Double xi) {
+    public static void multiplyPolynomialByBracket(Polynomial polynomial, Double xi) {
         
         // A(x) * x
-        var firstCoefficient = polynomial.getCoefficients();
-        firstCoefficient.addFirst(0.0);
-        var firstPolynomial = new Polynomial(firstCoefficient);
+        var polynomialCoefficients = polynomial.getCoefficients();
+        polynomialCoefficients.addFirst(0.0);
         
         // A(x) * (-xi)
-        var secondPolynomial = new Polynomial(polynomial.getCoefficients());
-        secondPolynomial.times(-xi);
+        polynomial.times(-xi);
         
-        return Polynomial.plus(firstPolynomial, secondPolynomial);
+        // (A(x) * (-xi)) + (A(x) * x)
+        polynomial.plus(new Polynomial(polynomialCoefficients));
     }
     
     // Расчет Pn(x)
     public void calculatePolynomial() {
         currentBracketPolynomial = new Polynomial(1.0);
-        var resultPolynomial = new Polynomial();
+        setCoefficients(0.0);
         for (int i = 0; i < points.size(); i++) {
 
             // TODO: вынести логику отдельно (1)
             // Первое слагаемое без умножения на скобки
+            Polynomial additionPolynomial;
             if (i == 0) {
-                resultPolynomial = new Polynomial(dividedDifference(i, i + 1));
+                additionPolynomial = new Polynomial(dividedDifference(i, i + 1));
             }
             
             // Следующие слагаемые с умножением на скобки (x - xi)
             else {
-                currentBracketPolynomial = multiplyPolynomialByBracket(currentBracketPolynomial, points.get(i - 1).getX());
-                var additionPolynomial = new Polynomial(currentBracketPolynomial.getCoefficients());
+                multiplyPolynomialByBracket(currentBracketPolynomial, points.get(i - 1).getX());
+                additionPolynomial = new Polynomial(currentBracketPolynomial.getCoefficients());
                 additionPolynomial.times(dividedDifference(0, i + 1));
-                resultPolynomial = Polynomial.plus(
-                        resultPolynomial,
-                        additionPolynomial
-                );
             }
+            this.plus(additionPolynomial);
         }
-        setCoefficients(resultPolynomial.getCoefficients());
     }
     
     // Укороченная версия алгоритма calculatePolynomial
     public void addPoint(Point2D point) {
         points.add(point);
-        Polynomial additionPolynomial;
         
         // TODO: вынести логику отдельно (2)
+        Polynomial additionPolynomial;
         if (points.size() == 1) {
             additionPolynomial = new Polynomial(dividedDifference(0, points.size()));
         }
         else {
             var nextIndex = Math.max(0, points.size() - 2);
-            currentBracketPolynomial = multiplyPolynomialByBracket(currentBracketPolynomial, points.get(nextIndex).getX());
+            multiplyPolynomialByBracket(currentBracketPolynomial, points.get(nextIndex).getX());
             additionPolynomial = new Polynomial(currentBracketPolynomial.getCoefficients());
             additionPolynomial.times(dividedDifference(0, points.size()));
         }
-
-        setCoefficients(
-            Polynomial.plus(
-                this,
-                additionPolynomial
-            ).getCoefficients()
-        );
+        this.plus(additionPolynomial);
     }
     
     public void removePoint(Point2D point) {

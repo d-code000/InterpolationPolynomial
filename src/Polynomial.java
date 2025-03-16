@@ -25,6 +25,10 @@ public class Polynomial {
         this.coefficients = coefficients;
     }
     
+    protected void setCoefficients(Double ... coefficients) {
+        setCoefficients(new ArrayList<>(List.of(coefficients)));
+    }
+    
     @Override
     public String toString() {
         var sb = new StringBuilder();
@@ -73,23 +77,21 @@ public class Polynomial {
     }
     
     // общий метод под разные операции с двумя полиномами
-    private static Polynomial operation(Polynomial polynomial1, Polynomial polynomial2, BinaryOperator<Double> operator) {
-        var c1 = polynomial1.getCoefficients();
-        var c2 = polynomial2.getCoefficients();
-        ArrayList<Double> result;
-        if (c1.size() >= c2.size()) {
-            result = c1;
-            for (int i = 0; i < c2.size(); i++) {
-                result.set(i, operator.apply(result.get(i), c2.get(i)));
-            }
+    private void operation(Polynomial polynomial, BinaryOperator<Double> operator, Double neutral) {
+        var polynomialCoefficient = polynomial.getCoefficients();
+        
+        // Расширяю массивы до одинаковых размеров нейтральными элементами
+        while (polynomialCoefficient.size() < coefficients.size()) {
+            polynomialCoefficient.addLast(neutral);
         }
-        else {
-            result = c2;
-            for (int i = 0; i < c1.size(); i++) {
-                result.set(i, operator.apply(result.get(i), c1.get(i)));
-            }
+        
+        while (polynomialCoefficient.size() > coefficients.size()) {
+            coefficients.addLast(neutral);
         }
-        return new Polynomial(result);
+        
+        for (int i = 0; i < polynomialCoefficient.size(); i++) {
+            coefficients.set(i, operator.apply(coefficients.get(i), polynomialCoefficient.get(i)));
+        }
     }
     
     // общий метод под разные операции с полиномом и числом
@@ -97,16 +99,16 @@ public class Polynomial {
         coefficients.replaceAll(t -> operator.apply(t, num));
     }
     
-    public static Polynomial plus(Polynomial p1, Polynomial p2) {
-        return operation(p1, p2, (a, b) -> a + b);
+    public void plus(Polynomial polynomial) {
+        operation(polynomial, (a, b) -> a + b, 0.0);
     }
     
-    public static Polynomial minus(Polynomial p1, Polynomial p2) {
-        return operation(p1, p2, (a, b) -> a - b);
+    public void minus(Polynomial polynomial) {
+        operation(polynomial, (a, b) -> a - b, 0.0);
     }
     
-    public static Polynomial times(Polynomial p1, Polynomial p2) {
-        return operation(p1, p2, (a, b) -> a * b);
+    public void times(Polynomial polynomial) {
+        operation(polynomial, (a, b) -> a * b, 1.0);
     }
     
     public void times(Double num) {

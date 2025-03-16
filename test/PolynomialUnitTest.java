@@ -54,21 +54,39 @@ class PolynomialUnitTest {
     }
     
     @Test
-    void testPlus(){
+    void testPlusEqual(){
         Polynomial p1 = new Polynomial(1.0, 2.0, 3.0);
         Polynomial p2 = new Polynomial(1.0, 2.0, 3.0);
         
-        var plus = Polynomial.plus(p1, p2);
-        assertEquals(new ArrayList<>(List.of(2.0, 4.0, 6.0)), plus.getCoefficients());
+        p1.plus(p2);
+        assertEquals(new ArrayList<>(List.of(2.0, 4.0, 6.0)), p1.getCoefficients());
     }
     
     @Test
-    void testMinus(){
+    void TestPlusMore(){
+        Polynomial p1 = new Polynomial(1.0);
+        Polynomial p2 = new Polynomial(1.0, 2.0, 3.0);
+
+        p1.plus(p2);
+        assertEquals(new ArrayList<>(List.of(2.0, 2.0, 3.0)), p1.getCoefficients());
+    }
+    
+    @Test
+    void testMinusEqual(){
         Polynomial p1 = new Polynomial(1.0, 2.0, 3.0);
         Polynomial p2 = new Polynomial(1.0, 1.0, 1.0);
         
-        var minus = Polynomial.minus(p1, p2);
-        assertEquals(new ArrayList<>(List.of(0.0, 1.0, 2.0)), minus.getCoefficients());
+        p1.minus(p2);
+        assertEquals(new ArrayList<>(List.of(0.0, 1.0, 2.0)), p1.getCoefficients());
+    }
+    
+    @Test
+    void testMinusMore(){
+        Polynomial p1 = new Polynomial(1.0);
+        Polynomial p2 = new Polynomial(1.0, 1.0, 1.0);
+
+        p1.minus(p2);
+        assertEquals(new ArrayList<>(List.of(0.0, -1.0, -1.0)), p1.getCoefficients());
     }
     
     @Test
@@ -76,8 +94,8 @@ class PolynomialUnitTest {
         Polynomial p1 = new Polynomial(1.0, 2.0, 3.0);
         Polynomial p2 = new Polynomial(1.0, 1.5, 2.0);
         
-        var multiply = Polynomial.times(p1, p2);
-        assertEquals(new ArrayList<>(List.of(1.0, 3.0, 6.0)), multiply.getCoefficients());
+        p1.times(p2);
+        assertEquals(new ArrayList<>(List.of(1.0, 3.0, 6.0)), p1.getCoefficients());
     }
     
     @Test

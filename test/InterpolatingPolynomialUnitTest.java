@@ -10,19 +10,18 @@ class InterpolatingPolynomialUnitTest {
     
     @Test
     void testMultiplyPolynomialByBracket(){
+        var polynomial1 = new Polynomial(1.0);
+        InterpolatingPolynomial.multiplyPolynomialByBracket(polynomial1, 4.0);
         assertEquals(
                 new ArrayList<>(List.of(-4.0, 1.0)),
-                InterpolatingPolynomial.multiplyPolynomialByBracket(
-                        new Polynomial(1.0),
-                        4.0
-                ).getCoefficients()
+                polynomial1.getCoefficients()
         );
+        
+        var polynomial2 = new Polynomial(8.0, -7.0, 2.0);
+        InterpolatingPolynomial.multiplyPolynomialByBracket(polynomial2, -3.0);
         assertEquals(
                 new ArrayList<>(List.of(24.0, -13.0, -1.0, 2.0)),
-                InterpolatingPolynomial.multiplyPolynomialByBracket(
-                        new Polynomial(8.0, -7.0, 2.0),
-                        -3.0
-                ).getCoefficients()
+                polynomial2.getCoefficients()
         );
     }
     
