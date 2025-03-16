@@ -82,7 +82,7 @@ public class InterpolatingPolynomial extends Polynomial {
         polynomial.plus(new Polynomial(polynomialCoefficients));
     }
 
-    // расчет следующего состояния полинома
+    // Расчет следующего состояния полинома
     private void plusAdditionPolynomial(int start, int end) {
 
         // Первое слагаемое без умножения на скобки
@@ -101,7 +101,6 @@ public class InterpolatingPolynomial extends Polynomial {
         this.plus(additionPolynomial);
     }
     
-    // Расчет Pn(x)
     private void calculatePolynomial() {
         currentBracketPolynomial = new Polynomial(1.0);
         setCoefficients(0.0);
@@ -110,13 +109,11 @@ public class InterpolatingPolynomial extends Polynomial {
         }
     }
     
-    // Укороченная версия алгоритма calculatePolynomial
     public void addPoint(Point2D point) {
         points.add(point);
         plusAdditionPolynomial(0, points.size());
     }
-
-    // пересчитывать полином, если точка удалена
+    
     public void removePoint(Point2D point) {
         if (points.remove(point)){
             calculatePolynomial();

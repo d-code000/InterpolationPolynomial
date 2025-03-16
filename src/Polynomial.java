@@ -72,12 +72,12 @@ public class Polynomial {
         coefficients.remove(index);
     }
     
-    // степень полинома
+    // Степень полинома
     public int getDegree() {
         return coefficients.size() - 1;
     }
     
-    // общий метод под разные операции с двумя полиномами
+    // Общий метод под разные операции с двумя полиномами
     private void operation(Polynomial polynomial, BinaryOperator<Double> operator, Double neutral) {
         var polynomialCoefficient = polynomial.getCoefficients();
         
@@ -96,7 +96,7 @@ public class Polynomial {
         }
     }
     
-    // общий метод под разные операции с полиномом и числом
+    // Общий метод под разные операции с полиномом и числом
     private void operation(Double num, BinaryOperator<Double> operator) {
         coefficients.replaceAll(t -> operator.apply(t, num));
     }
