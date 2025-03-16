@@ -30,7 +30,9 @@ public class InterpolatingPolynomial extends Polynomial {
     public ArrayList<Point2D> getPoints() {
         return new ArrayList<>(points);
     }
-
+    
+    // Кэширование функции разделенной разности позволяет избежать проблемы, 
+    // когда мы заново вычисляем данные, которые вычисляли ранее
     public Double dividedDifference(int start, int end){
         Pair key = new Pair(start, end);
 
@@ -44,7 +46,6 @@ public class InterpolatingPolynomial extends Polynomial {
     }
     
     // Рекурсивная функция нахождения разделённой разности, реализованная по формулам в README.md
-    // Есть проблема оптимизации - мы заново вычисляем то, что вычисляли ранее (решение - можно кэшировать функцию)
     public Double computeDividedDifference(int start, int end) {
         if (end - start == 1) {
             return points.get(start).getY();
@@ -83,7 +84,7 @@ public class InterpolatingPolynomial extends Polynomial {
     // Расчет Pn(x)
     public void calculatePolynomial() {
         currentBracketPolynomial = new Polynomial(1.0);
-        var resultPolynomial = new Polynomial(new ArrayList<>());
+        var resultPolynomial = new Polynomial();
         for (int i = 0; i < points.size(); i++) {
 
             // TODO: вынести логику отдельно (1)
