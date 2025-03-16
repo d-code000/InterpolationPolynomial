@@ -4,16 +4,12 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+
 public class InterpolatingPolynomial extends Polynomial {
     private final ArrayList<Point2D> points = new ArrayList<>();
     
-    // TODO: убрать static для кэша
     // Кэш для значений функции нахождения разделённой разности
-    private static final Map<String, Double> cache = new HashMap<>();
-
-    public void clearCache() {
-        cache.clear();
-    }
+    private final Map<Pair, Double> cache = new HashMap<>();
     
     public InterpolatingPolynomial() {
         
@@ -21,57 +17,49 @@ public class InterpolatingPolynomial extends Polynomial {
 
     public InterpolatingPolynomial(ArrayList<Point2D> points) {
         this.points.addAll(points);
-        setCoefficients(calculatePolynomial(points).getCoefficients());
+        calculatePolynomial();
     }
 
     public InterpolatingPolynomial(Point2D ... points) {
         this.points.addAll(Arrays.asList(points));
-        setCoefficients(calculatePolynomial(points).getCoefficients());
+        calculatePolynomial();
     }
 
     public ArrayList<Point2D> getPoints() {
         return new ArrayList<>(points);
     }
 
-    public static Double dividedDifference(Point2D ... points){
-        String key = Arrays.toString(points);
+    public Double dividedDifference(int start, int end){
+        Pair key = new Pair(start, end);
 
         if (cache.containsKey(key)) {
             return cache.get(key);
         }
         
-        Double result = computeDividedDifference(points);
+        Double result = computeDividedDifference(start, end);
         cache.put(key, result);
         return result;
     }
     
     // Рекурсивная функция нахождения разделённой разности, реализованная по формулам в README.md
     // Есть проблема оптимизации - мы заново вычисляем то, что вычисляли ранее (решение - можно кэшировать функцию)
-    public static Double computeDividedDifference(Point2D ... points) {
-        if (points.length == 1) {
-            return points[0].getY();
+    public Double computeDividedDifference(int start, int end) {
+        if (end - start == 1) {
+            return points.get(start).getY();
         }
-        else if (points.length == 2) {
-            return (points[1].getY() - points[0].getY()) / 
-                    (points[1].getX() - points[0].getX());
-        }
-        else if (points.length > 2) {
+        else if (end - start > 1) {
             // Убираем первую точку из массива (p1, ..., pn)
-            var func1 = dividedDifference(Arrays.copyOfRange(points, 1, points.length));
+            var func1 = dividedDifference(start + 1, end);
             
             // Убираем последнюю точку из массива (p0, ... p(n-1))
-            var func2 = dividedDifference(Arrays.copyOfRange(points, 0, points.length - 1));
+            var func2 = dividedDifference(start, end - 1);
             
             return (func1 - func2) /
-                    (points[points.length - 1].getX() - points[0].getX());
+                    (points.get(end - 1).getX() - points.get(start).getX());
         }
         else {
             throw new IllegalArgumentException("Функция нахождения разделённых разностей требует хотя бы одну точку");
         }
-    }
-    
-    public static Double dividedDifference(ArrayList<Point2D> points) {
-        return dividedDifference(points.toArray(Point2D[]::new));
     }
     
     // B(x) = A(x) * (x - xi))
@@ -91,20 +79,20 @@ public class InterpolatingPolynomial extends Polynomial {
     }
     
     // Расчет Pn(x)
-    public static Polynomial calculatePolynomial(Point2D ... points) {
-        Polynomial resultPolynomial = null;
-        for (int i = 0; i < points.length; i++) {
+    public void calculatePolynomial() {
+        var resultPolynomial = new Polynomial(new ArrayList<>());
+        for (int i = 0; i < points.size(); i++) {
             
             // Первое слагаемое без умножения на скобки
             if (i == 0) {
-                resultPolynomial = new Polynomial(dividedDifference(points[0]));
+                resultPolynomial = new Polynomial(dividedDifference(i, i + 1));
             }
             
             // Следующие слагаемые с умножением на скобки (x - xi)
             else {
-                var additionPolynomial = new Polynomial(dividedDifference(Arrays.copyOfRange(points, 0, i + 1)));
+                var additionPolynomial = new Polynomial(dividedDifference( 0, i + 1));
                 for (int j = 0; j < i; j++) {
-                    additionPolynomial = multiplyPolynomialByBracket(additionPolynomial, points[j].getX());
+                    additionPolynomial = multiplyPolynomialByBracket(additionPolynomial, points.get(j).getX());
                 }
                 resultPolynomial = Polynomial.plus(
                         resultPolynomial,
@@ -112,19 +100,14 @@ public class InterpolatingPolynomial extends Polynomial {
                 );
             }
         }
-        return resultPolynomial;
-    }
-    
-    public static Polynomial calculatePolynomial(ArrayList<Point2D> points) {
-        return calculatePolynomial(points.toArray(Point2D[]::new));
+        setCoefficients(resultPolynomial.getCoefficients());
     }
     
     // Укороченная версия алгоритма calculatePolynomial
     public void addPoint(Point2D point) {
         points.add(point);
-
-        var cutPoints = new ArrayList<>(points.subList(0, points.size()));
-        var additionPolynomial = new Polynomial(dividedDifference(cutPoints));
+        
+        var additionPolynomial = new Polynomial(dividedDifference(0, points.size()));
 
         for (int i = 0; i < points.size() - 1; i++) {
             additionPolynomial = multiplyPolynomialByBracket(additionPolynomial, points.get(i).getX());
@@ -142,9 +125,7 @@ public class InterpolatingPolynomial extends Polynomial {
         
         // пересчитывать полином, если точка удалена
         if (points.remove(point)){
-            var newPolynomial = calculatePolynomial(points);
-            
-            setCoefficients(newPolynomial.getCoefficients());
+            calculatePolynomial();
         }
     }
 }

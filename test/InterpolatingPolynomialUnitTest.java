@@ -7,38 +7,6 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 class InterpolatingPolynomialUnitTest {
-
-    @Test
-    void testDividedDifference() {
-        assertEquals(
-                2,
-                InterpolatingPolynomial.dividedDifference(
-                        new Point2D.Double(1, 2)
-                )
-        );
-        assertEquals(
-                1,
-                InterpolatingPolynomial.dividedDifference(
-                        new Point2D.Double(1, 2),
-                        new Point2D.Double(2, 3)
-                )
-        );
-        assertEquals(
-                2,
-                InterpolatingPolynomial.dividedDifference(
-                        new Point2D.Double(2, 3),
-                        new Point2D.Double(3, 5)
-                )
-        );
-        assertEquals(
-                0.5, 
-                InterpolatingPolynomial.dividedDifference(
-                        new Point2D.Double(1, 2),
-                        new Point2D.Double(2, 3),
-                        new Point2D.Double(3, 5)
-                )
-        );
-    }
     
     @Test
     void testMultiplyPolynomialByBracket(){
@@ -60,13 +28,14 @@ class InterpolatingPolynomialUnitTest {
     
     @Test
     void testCalculatePolynomial() {
+        var polynomial = new InterpolatingPolynomial(
+                new Point2D.Double(1, 2),
+                new Point2D.Double(2, 3),
+                new Point2D.Double(3, 5)
+        );
         assertEquals(
                 new ArrayList<>(List.of(2.0, -0.5, 0.5)),
-                InterpolatingPolynomial.calculatePolynomial(
-                        new Point2D.Double(1, 2),
-                        new Point2D.Double(2, 3),
-                        new Point2D.Double(3, 5)
-                ).getCoefficients()
+                polynomial.getCoefficients()
         );
     }
     

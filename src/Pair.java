@@ -1,0 +1,1 @@
+public record Pair(Integer first, Integer second) {}
