@@ -13,13 +13,15 @@ class InterpolatingPolynomialLoadTest {
     
     @Test
     void testComplex(){
-        var startPointsCount = 100;
+        var startPointCount = 1400;
+        var stepPointsCount = 200;
         
         var random = new Random();
         
-        for (int i = 1; i <= 20; i++) {
+        for (int i = 0; i < 10; i++) {
             var points = new ArrayList<Point2D>();
-            for (int j = 0; j < i * startPointsCount; j++) {
+            var countPoints = startPointCount + (i * stepPointsCount);
+            for (int j = 0; j <  countPoints; j++) {
                 points.add(new Point2D.Double(random.nextDouble(), random.nextDouble()));
             }
             
@@ -29,19 +31,20 @@ class InterpolatingPolynomialLoadTest {
             
             System.out.printf(
                     "Построение нового полинома из %d точек: %.2f c\n",
-                    i * startPointsCount,
+                    countPoints,
                     getDurationInSec(startTime, endTime));
         }
     }
     
     @Test
     void testAddPoints(){
-        var startPointsCount = 100;
+        var startPointCount = 1000;
+        var stepPointsCount = 200;
         
         var random = new Random();
         
         var points = new ArrayList<Point2D>();
-        for (int i = 0; i < startPointsCount; i++) {
+        for (int i = 0; i < startPointCount; i++) {
             points.add(new Point2D.Double(random.nextDouble(), random.nextDouble()));
         }
         
@@ -49,19 +52,19 @@ class InterpolatingPolynomialLoadTest {
         
         System.out.printf(
                 "Начальное число точек в полиноме: %d\n",
-                startPointsCount
+                startPointCount
         );
         
-        for (int i = 2; i <= 20; i++) {
+        for (int i = 0; i < 10; i++) {
 
             var startTime = System.nanoTime();
-            for (int j = 0; j < startPointsCount; j++) {
+            for (int j = 0; j < stepPointsCount; j++) {
                 polynomial.addPoint(new Point2D.Double(random.nextDouble(), random.nextDouble()));
             }
             var endTime = System.nanoTime();
             System.out.printf(
                     "Добавление %d точек в полином (текущий размер %d): %.2f c\n",
-                    startPointsCount,
+                    stepPointsCount,
                     polynomial.getPoints().size(),
                     getDurationInSec(startTime, endTime)
             );
