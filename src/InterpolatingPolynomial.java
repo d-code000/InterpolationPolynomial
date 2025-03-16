@@ -14,15 +14,17 @@ public class InterpolatingPolynomial extends Polynomial {
     private Polynomial currentBracketPolynomial = new Polynomial(1.0);
     
     public InterpolatingPolynomial() {
-        
+        super();
     }
 
     public InterpolatingPolynomial(ArrayList<Point2D> points) {
+        super();
         this.points.addAll(points);
         calculatePolynomial();
     }
 
     public InterpolatingPolynomial(Point2D ... points) {
+        super();
         this.points.addAll(Arrays.asList(points));
         calculatePolynomial();
     }
@@ -33,7 +35,7 @@ public class InterpolatingPolynomial extends Polynomial {
     
     // Кэширование функции разделенной разности позволяет избежать проблемы, 
     // когда мы заново вычисляем данные, которые вычисляли ранее
-    public Double dividedDifference(int start, int end){
+    private Double dividedDifference(int start, int end){
         Pair key = new Pair(start, end);
 
         if (cache.containsKey(key)) {
@@ -46,7 +48,7 @@ public class InterpolatingPolynomial extends Polynomial {
     }
     
     // Рекурсивная функция нахождения разделённой разности, реализованная по формулам в README.md
-    public Double computeDividedDifference(int start, int end) {
+    private Double computeDividedDifference(int start, int end) {
         if (end - start == 1) {
             return points.get(start).getY();
         }
@@ -81,7 +83,7 @@ public class InterpolatingPolynomial extends Polynomial {
     }
 
     // расчет следующего состояния полинома
-    public void plusAdditionPolynomial(int start, int end) {
+    private void plusAdditionPolynomial(int start, int end) {
 
         // Первое слагаемое без умножения на скобки
         Polynomial additionPolynomial;
@@ -100,7 +102,7 @@ public class InterpolatingPolynomial extends Polynomial {
     }
     
     // Расчет Pn(x)
-    public void calculatePolynomial() {
+    private void calculatePolynomial() {
         currentBracketPolynomial = new Polynomial(1.0);
         setCoefficients(0.0);
         for (int i = 0; i < points.size(); i++) {
@@ -113,10 +115,9 @@ public class InterpolatingPolynomial extends Polynomial {
         points.add(point);
         plusAdditionPolynomial(0, points.size());
     }
-    
+
+    // пересчитывать полином, если точка удалена
     public void removePoint(Point2D point) {
-        
-        // пересчитывать полином, если точка удалена
         if (points.remove(point)){
             calculatePolynomial();
         }

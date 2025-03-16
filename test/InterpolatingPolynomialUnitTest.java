@@ -9,6 +9,15 @@ import static org.junit.jupiter.api.Assertions.*;
 class InterpolatingPolynomialUnitTest {
     
     @Test
+    void testGetPointsCopy() {
+        var p = new InterpolatingPolynomial(new Point2D.Double(0, 0));
+        var points = p.getPoints();
+        p.addPoint(new Point2D.Double(1, 1));
+        
+        assertNotEquals(points, p.getPoints());
+    }
+    
+    @Test
     void testMultiplyPolynomialByBracket(){
         var polynomial1 = new Polynomial(1.0);
         InterpolatingPolynomial.multiplyPolynomialByBracket(polynomial1, 4.0);

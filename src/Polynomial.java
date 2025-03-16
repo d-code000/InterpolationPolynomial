@@ -3,7 +3,7 @@ import java.util.List;
 import java.util.function.BinaryOperator;
 
 public class Polynomial {
-    private ArrayList<Double> coefficients;
+    private final ArrayList<Double> coefficients = new ArrayList<>();
     
     public Polynomial() {
         setCoefficients(new ArrayList<>(List.of(0.0)));
@@ -22,7 +22,8 @@ public class Polynomial {
     }
 
     protected void setCoefficients(ArrayList<Double> coefficients) {
-        this.coefficients = coefficients;
+        this.coefficients.clear();
+        this.coefficients.addAll(coefficients);
     }
     
     protected void setCoefficients(Double ... coefficients) {
@@ -89,6 +90,7 @@ public class Polynomial {
             coefficients.addLast(neutral);
         }
         
+        // Вызываю операции поэлементно
         for (int i = 0; i < polynomialCoefficient.size(); i++) {
             coefficients.set(i, operator.apply(coefficients.get(i), polynomialCoefficient.get(i)));
         }

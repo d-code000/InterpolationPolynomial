@@ -48,6 +48,27 @@ class PolynomialUnitTest {
     }
     
     @Test
+    void testEquals(){
+        Polynomial p1 = new Polynomial(1.0, 2.0, 3.0);
+        Polynomial p2 = new Polynomial(1.0, 2.0, 3.0);
+        Polynomial p3 = new Polynomial(1.0, 2.0, 4.0);
+        
+        assertEquals(p1, p2);
+        assertNotEquals(p1, p3);
+    }
+    
+    @Test
+    void testHashCode(){
+        Polynomial p1 = new Polynomial(1.0, 2.0, 3.0);
+        Polynomial p2 = new Polynomial(1.0, 2.0, 3.0);
+        assertEquals(p1.hashCode(), p2.hashCode());
+        
+        var oldHash = p1.hashCode();
+        p1.setCoefficients(new ArrayList<>(List.of(1.5, 2.5, 3.5)));
+        assertNotEquals(oldHash, p1.hashCode());
+    }
+    
+    @Test
     void testGetDegree(){
         Polynomial p = new Polynomial(1.0, 2.0, 3.0);
         assertEquals(2, p.getDegree());
@@ -90,9 +111,18 @@ class PolynomialUnitTest {
     }
     
     @Test
-    void testMultiply(){
+    void testMultiplyEqual(){
         Polynomial p1 = new Polynomial(1.0, 2.0, 3.0);
         Polynomial p2 = new Polynomial(1.0, 1.5, 2.0);
+        
+        p1.times(p2);
+        assertEquals(new ArrayList<>(List.of(1.0, 3.0, 6.0)), p1.getCoefficients());
+    }
+    
+    @Test
+    void testMultiplyMore(){
+        Polynomial p1 = new Polynomial(1.0);
+        Polynomial p2 = new Polynomial(1.0, 3.0, 6.0);
         
         p1.times(p2);
         assertEquals(new ArrayList<>(List.of(1.0, 3.0, 6.0)), p1.getCoefficients());
