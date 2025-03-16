@@ -11,6 +11,8 @@ public class InterpolatingPolynomial extends Polynomial {
     // Кэш для значений функции нахождения разделённой разности
     private final Map<Pair, Double> cache = new HashMap<>();
     
+    private Polynomial currentBracketPolynomial = new Polynomial(1.0);
+    
     public InterpolatingPolynomial() {
         
     }
@@ -80,9 +82,11 @@ public class InterpolatingPolynomial extends Polynomial {
     
     // Расчет Pn(x)
     public void calculatePolynomial() {
+        currentBracketPolynomial = new Polynomial(1.0);
         var resultPolynomial = new Polynomial(new ArrayList<>());
         for (int i = 0; i < points.size(); i++) {
-            
+
+            // TODO: вынести логику отдельно (1)
             // Первое слагаемое без умножения на скобки
             if (i == 0) {
                 resultPolynomial = new Polynomial(dividedDifference(i, i + 1));
@@ -90,10 +94,9 @@ public class InterpolatingPolynomial extends Polynomial {
             
             // Следующие слагаемые с умножением на скобки (x - xi)
             else {
-                var additionPolynomial = new Polynomial(dividedDifference( 0, i + 1));
-                for (int j = 0; j < i; j++) {
-                    additionPolynomial = multiplyPolynomialByBracket(additionPolynomial, points.get(j).getX());
-                }
+                currentBracketPolynomial = multiplyPolynomialByBracket(currentBracketPolynomial, points.get(i - 1).getX());
+                var additionPolynomial = new Polynomial(currentBracketPolynomial.getCoefficients());
+                additionPolynomial.times(dividedDifference(0, i + 1));
                 resultPolynomial = Polynomial.plus(
                         resultPolynomial,
                         additionPolynomial
@@ -106,11 +109,17 @@ public class InterpolatingPolynomial extends Polynomial {
     // Укороченная версия алгоритма calculatePolynomial
     public void addPoint(Point2D point) {
         points.add(point);
+        Polynomial additionPolynomial;
         
-        var additionPolynomial = new Polynomial(dividedDifference(0, points.size()));
-
-        for (int i = 0; i < points.size() - 1; i++) {
-            additionPolynomial = multiplyPolynomialByBracket(additionPolynomial, points.get(i).getX());
+        // TODO: вынести логику отдельно (2)
+        if (points.size() == 1) {
+            additionPolynomial = new Polynomial(dividedDifference(0, points.size()));
+        }
+        else {
+            var nextIndex = Math.max(0, points.size() - 2);
+            currentBracketPolynomial = multiplyPolynomialByBracket(currentBracketPolynomial, points.get(nextIndex).getX());
+            additionPolynomial = new Polynomial(currentBracketPolynomial.getCoefficients());
+            additionPolynomial.times(dividedDifference(0, points.size()));
         }
 
         setCoefficients(
