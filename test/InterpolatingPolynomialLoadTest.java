@@ -13,12 +13,12 @@ class InterpolatingPolynomialLoadTest {
     
     @Test
     void testComplex(){
-        var startPointCount = 1400;
+        var startPointCount = 1000;
         var stepPointsCount = 200;
         
         var random = new Random();
         
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 20; i++) {
             var points = new ArrayList<Point2D>();
             var countPoints = startPointCount + (i * stepPointsCount);
             for (int j = 0; j <  countPoints; j++) {
@@ -55,7 +55,7 @@ class InterpolatingPolynomialLoadTest {
                 startPointCount
         );
         
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 20; i++) {
 
             var startTime = System.nanoTime();
             for (int j = 0; j < stepPointsCount; j++) {
