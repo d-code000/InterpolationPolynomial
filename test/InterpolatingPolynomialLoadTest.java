@@ -13,8 +13,8 @@ class InterpolatingPolynomialLoadTest {
     
     @Test
     void testComplex(){
-        var startPointCount = 1000;
-        var stepPointsCount = 200;
+        var startPointCount = 4000;
+        var stepPointsCount = 250;
         
         var random = new Random();
         
@@ -38,8 +38,8 @@ class InterpolatingPolynomialLoadTest {
     
     @Test
     void testAddPoints(){
-        var startPointCount = 1000;
-        var stepPointsCount = 200;
+        var startPointCount = 10000;
+        var stepPointsCount = 1000;
         
         var random = new Random();
         
@@ -69,5 +69,26 @@ class InterpolatingPolynomialLoadTest {
                     getDurationInSec(startTime, endTime)
             );
         }
+    }
+    
+    @Test
+    void testManyPoints(){
+        var countPoints = 10000;
+        
+        var random = new Random();
+
+        var points = new ArrayList<Point2D>();
+        for (int j = 0; j <  countPoints; j++) {
+            points.add(new Point2D.Double(random.nextDouble(), random.nextDouble()));
+        }
+
+        var startTime = System.nanoTime();
+        new InterpolatingPolynomial(points);
+        var endTime = System.nanoTime();
+
+        System.out.printf(
+                "Построение нового полинома из %d точек: %.2f c\n",
+                countPoints,
+                getDurationInSec(startTime, endTime));
     }
 }

@@ -9,7 +9,7 @@ public class InterpolatingPolynomial extends Polynomial {
     private final ArrayList<Point2D> points = new ArrayList<>();
     
     // Кэш для значений функции нахождения разделённой разности
-    private final Map<Pair, Double> cache = new HashMap<>();
+    private final Map<Integer, Double> cache = new HashMap<>();
     
     private Polynomial currentBracketPolynomial = new Polynomial(1.0);
     
@@ -36,7 +36,7 @@ public class InterpolatingPolynomial extends Polynomial {
     // Кэширование функции разделенной разности позволяет избежать проблемы, 
     // когда мы заново вычисляем данные, которые вычисляли ранее
     private Double dividedDifference(int start, int end){
-        Pair key = new Pair(start, end);
+        Integer key = start * points.size() + end;
 
         if (cache.containsKey(key)) {
             return cache.get(key);
