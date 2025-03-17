@@ -4,6 +4,8 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Random;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 class InterpolatingPolynomialLoadTest {
     
     private double getDurationInSec(long start, long end) {
@@ -90,5 +92,41 @@ class InterpolatingPolynomialLoadTest {
                 "Построение нового полинома из %d точек: %.2f c\n",
                 countPoints,
                 getDurationInSec(startTime, endTime));
+    }
+    
+    @Test
+    void testCalculateVsAddPoint(){
+        var countPoints = 10000;
+        
+        var random = new Random();
+        
+        var points = new ArrayList<Point2D>();
+        for (int i = 0; i < countPoints; i++) {
+            points.add(new Point2D.Double(random.nextDouble(), random.nextDouble()));
+        }
+
+        var startTime = System.nanoTime();
+        var polynomial1 = new InterpolatingPolynomial(points);
+        var endTime = System.nanoTime();
+
+        System.out.printf(
+                "Построение нового полинома из %d точек (способ 1): %.2f c\n",
+                countPoints,
+                getDurationInSec(startTime, endTime));
+        
+        var polynomial2 = new InterpolatingPolynomial();
+
+        startTime = System.nanoTime();
+        for (Point2D point : points) {
+            polynomial2.addPoint(point);
+        }
+        endTime = System.nanoTime();
+
+        System.out.printf(
+                "Построение нового полинома из %d точек (способ 2): %.2f c\n",
+                countPoints,
+                getDurationInSec(startTime, endTime));
+
+        assertEquals(polynomial1, polynomial2);
     }
 }

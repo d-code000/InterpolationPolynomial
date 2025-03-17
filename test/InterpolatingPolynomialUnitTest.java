@@ -18,25 +18,34 @@ class InterpolatingPolynomialUnitTest {
     }
     
     @Test
-    void testMultiplyPolynomialByBracket(){
-        var polynomial1 = new Polynomial(1.0);
-        InterpolatingPolynomial.multiplyPolynomialByBracket(polynomial1, 4.0);
-        assertEquals(
-                new ArrayList<>(List.of(-4.0, 1.0)),
-                polynomial1.getCoefficients()
+    void testLinearFunction() {
+        var polynomial = new InterpolatingPolynomial(
+                new Point2D.Double(1, 2),
+                new Point2D.Double(3, 6)
         );
-        
-        var polynomial2 = new Polynomial(8.0, -7.0, 2.0);
-        InterpolatingPolynomial.multiplyPolynomialByBracket(polynomial2, -3.0);
+        // y = 2x
         assertEquals(
-                new ArrayList<>(List.of(24.0, -13.0, -1.0, 2.0)),
-                polynomial2.getCoefficients()
+                new ArrayList<>(List.of(0.0, 2.0)),
+                polynomial.getCoefficients()
         );
     }
-    
-    // TODO: добавить больше тестов на правильность вычислений
+
     @Test
-    void testCalculatePolynomial() {
+    void testQuadraticFunction() {
+        var polynomial = new InterpolatingPolynomial(
+                new Point2D.Double(0, 0),
+                new Point2D.Double(1, 1),
+                new Point2D.Double(2, 4)
+        );
+        // y = x^2
+        assertEquals(
+                new ArrayList<>(List.of(0.0, 0.0, 1.0)),
+                polynomial.getCoefficients()
+        );
+    }
+
+    @Test
+    void testQuadraticFunction2() {
         var polynomial = new InterpolatingPolynomial(
                 new Point2D.Double(1, 2),
                 new Point2D.Double(2, 3),
@@ -47,28 +56,29 @@ class InterpolatingPolynomialUnitTest {
                 polynomial.getCoefficients()
         );
     }
-    
+
     @Test
-    void testAddPoint() {
-        var ip = new InterpolatingPolynomial();
-        
-        ip.addPoint(new Point2D.Double(1, 2));
-        assertEquals(
-                new ArrayList<>(List.of(2.0)),
-                ip.getCoefficients()
+    void testConstantFunction() {
+        var polynomial = new InterpolatingPolynomial(
+                new Point2D.Double(0, 5),
+                new Point2D.Double(1, 5),
+                new Point2D.Double(2, 5)
         );
-        
-        ip.addPoint(new Point2D.Double(2, 3));
+        // y = 5
         assertEquals(
-                new ArrayList<>(List.of(1.0, 1.0)),
-                ip.getCoefficients()
+                new ArrayList<>(List.of(5.0, 0.0, 0.0)),
+                polynomial.getCoefficients()
         );
-        
-        ip.addPoint(new Point2D.Double(3, 5));
-        assertEquals(
-                new ArrayList<>(List.of(2.0, -0.5, 0.5)),
-                ip.getCoefficients()
-        );
+    }
+
+    @Test
+    void testDuplicateXThrows() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            new InterpolatingPolynomial(
+                    new Point2D.Double(1, 2),
+                    new Point2D.Double(1, 3) // Повторяющийся x
+            );
+        });
     }
     
     @Test
@@ -92,5 +102,20 @@ class InterpolatingPolynomialUnitTest {
         );
     }
     
-    // TODO: сделать сравнение построения полиномов через конструктор и через addPoint()
+    @Test
+    void testCalculateAndAddPointEqual(){
+        var points = new ArrayList<Point2D>();
+        points.add(new Point2D.Double(1, 2));
+        points.add(new Point2D.Double(2, 3));
+        points.add(new Point2D.Double(3, 5));
+        
+        var polynomial1 = new InterpolatingPolynomial(points);
+        var polynomial2 = new InterpolatingPolynomial();
+        for (Point2D point : points) {
+            polynomial2.addPoint(point);
+        }
+        
+        assertEquals(polynomial1, polynomial2);
+        
+    }
 }
