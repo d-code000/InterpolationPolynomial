@@ -121,13 +121,14 @@ class PolynomialUnitTest {
     
     @Test
     void testMultiplyMore(){
-        Polynomial p1 = new Polynomial(1.0);
+        Polynomial p1 = new Polynomial(1.0, 2.0);
         Polynomial p2 = new Polynomial(1.0, 3.0, 6.0);
         
         p1.times(p2);
         assertEquals(new ArrayList<>(List.of(1.0, 3.0, 6.0)), p1.getCoefficients());
     }
     
+    // TODO: переделать правильные тесты под умножение
     @Test
     void testMultiplyNum(){
         Polynomial p = new Polynomial(1.0, 2.0, 3.0);

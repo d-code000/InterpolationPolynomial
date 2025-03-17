@@ -34,6 +34,7 @@ class InterpolatingPolynomialUnitTest {
         );
     }
     
+    // TODO: добавить больше тестов на правильность вычислений
     @Test
     void testCalculatePolynomial() {
         var polynomial = new InterpolatingPolynomial(
@@ -90,4 +91,6 @@ class InterpolatingPolynomialUnitTest {
                 ip.getCoefficients()
         );
     }
+    
+    // TODO: сделать сравнение построения полиномов через конструктор и через addPoint()
 }

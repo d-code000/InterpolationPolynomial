@@ -67,6 +67,7 @@ public class InterpolatingPolynomial extends Polynomial {
         }
     }
     
+    // TODO: Заменить на ф-ию умножения полиномов
     // B(x) = A(x) * (x - xi))
     // Умножение полинома на скобку (x - xi)
     public static void multiplyPolynomialByBracket(Polynomial polynomial, Double xi) {

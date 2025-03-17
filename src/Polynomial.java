@@ -109,6 +109,7 @@ public class Polynomial {
         operation(polynomial, (a, b) -> a - b, 0.0);
     }
     
+    // TODO: переделать умножение
     public void times(Polynomial polynomial) {
         operation(polynomial, (a, b) -> a * b, 1.0);
     }
