@@ -21,6 +21,10 @@ public class Polynomial {
         return new ArrayList<>(coefficients);
     }
 
+    public Polynomial getCopy() {
+        return new Polynomial(this.getCoefficients());
+    }
+
     protected void setCoefficients(ArrayList<Double> coefficients) {
         this.coefficients.clear();
         this.coefficients.addAll(coefficients);
@@ -77,17 +81,24 @@ public class Polynomial {
         return coefficients.size() - 1;
     }
     
+    // Увеличить степень полинома (равносильно умножению полинома на x^upLevel)
+    public void upDegree(int upLevel) {
+        for (int i = 0; i < upLevel; i++) {
+            coefficients.addFirst(0.0);
+        }
+    }
+    
     // Общий метод под разные операции с двумя полиномами
-    private void operation(Polynomial polynomial, BinaryOperator<Double> operator, Double neutral) {
+    private void operation(Polynomial polynomial, BinaryOperator<Double> operator) {
         var polynomialCoefficient = polynomial.getCoefficients();
         
         // Расширяю массивы до одинаковых размеров нейтральными элементами
         while (polynomialCoefficient.size() < coefficients.size()) {
-            polynomialCoefficient.addLast(neutral);
+            polynomialCoefficient.addLast(0.0);
         }
         
         while (polynomialCoefficient.size() > coefficients.size()) {
-            coefficients.addLast(neutral);
+            coefficients.addLast(0.0);
         }
         
         // Вызываю операции поэлементно
@@ -102,16 +113,28 @@ public class Polynomial {
     }
     
     public void plus(Polynomial polynomial) {
-        operation(polynomial, (a, b) -> a + b, 0.0);
+        operation(polynomial, (a, b) -> a + b);
     }
     
     public void minus(Polynomial polynomial) {
-        operation(polynomial, (a, b) -> a - b, 0.0);
+        operation(polynomial, (a, b) -> a - b);
     }
     
-    // TODO: переделать умножение
     public void times(Polynomial polynomial) {
-        operation(polynomial, (a, b) -> a * b, 1.0);
+        var startPolynomial = this.getCopy();
+        var polynomialCoefficient = polynomial.getCoefficients();
+        
+        for (int i = 0; i < polynomialCoefficient.size(); i++) {
+            if (i == 0) {
+                this.times(polynomialCoefficient.get(i));
+            }
+            else {
+                var additionPolynomial = startPolynomial.getCopy();
+                additionPolynomial.times(polynomialCoefficient.get(i));
+                additionPolynomial.upDegree(i);
+                this.plus(additionPolynomial);
+            }
+        }
     }
     
     public void times(Double num) {

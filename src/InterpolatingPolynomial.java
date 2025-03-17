@@ -19,20 +19,35 @@ public class InterpolatingPolynomial extends Polynomial {
 
     public InterpolatingPolynomial(ArrayList<Point2D> points) {
         super();
-        this.points.addAll(points);
+        try {
+            for (Point2D point : points) {
+                addNewPoint(point);
+            }
+        }
+        catch (IllegalArgumentException exception) {
+            points.clear();
+            throw exception;
+        }
         calculatePolynomial();
     }
 
     public InterpolatingPolynomial(Point2D ... points) {
-        super();
-        this.points.addAll(Arrays.asList(points));
-        calculatePolynomial();
+        this(new ArrayList<>(Arrays.asList(points)));
     }
 
     public ArrayList<Point2D> getPoints() {
         return new ArrayList<>(points);
     }
-    
+
+    private void addNewPoint(Point2D point) {
+        for (Point2D existingPoint : points) {
+            if (existingPoint.getX() == point.getX()) {
+                throw new IllegalArgumentException("Точка с x = " + point.getX() + " уже добавлена в полином!");
+            }
+        }
+        points.add(point);
+    }
+
     // Кэширование функции разделенной разности позволяет избежать проблемы, 
     // когда мы заново вычисляем данные, которые вычисляли ранее
     private Double dividedDifference(int start, int end){
@@ -66,22 +81,6 @@ public class InterpolatingPolynomial extends Polynomial {
             throw new IllegalArgumentException("Функция нахождения разделённых разностей требует хотя бы одну точку");
         }
     }
-    
-    // TODO: Заменить на ф-ию умножения полиномов
-    // B(x) = A(x) * (x - xi))
-    // Умножение полинома на скобку (x - xi)
-    public static void multiplyPolynomialByBracket(Polynomial polynomial, Double xi) {
-        
-        // A(x) * x
-        var polynomialCoefficients = polynomial.getCoefficients();
-        polynomialCoefficients.addFirst(0.0);
-        
-        // A(x) * (-xi)
-        polynomial.times(-xi);
-        
-        // (A(x) * (-xi)) + (A(x) * x)
-        polynomial.plus(new Polynomial(polynomialCoefficients));
-    }
 
     // Расчет следующего состояния полинома
     private void plusAdditionPolynomial(int start, int end) {
@@ -95,8 +94,8 @@ public class InterpolatingPolynomial extends Polynomial {
         // Следующие слагаемые с умножением на скобки (x - xi)
         else {
             var nextIndex = Math.max(0, end - 2);
-            multiplyPolynomialByBracket(currentBracketPolynomial, points.get(nextIndex).getX());
-            additionPolynomial = new Polynomial(currentBracketPolynomial.getCoefficients());
+            currentBracketPolynomial.times(new Polynomial(-points.get(nextIndex).getX(), 1.0));
+            additionPolynomial = currentBracketPolynomial.getCopy();
             additionPolynomial.times(dividedDifference(0, end));
         }
         this.plus(additionPolynomial);
@@ -105,13 +104,14 @@ public class InterpolatingPolynomial extends Polynomial {
     private void calculatePolynomial() {
         currentBracketPolynomial = new Polynomial(1.0);
         setCoefficients(0.0);
+        cache.clear();
         for (int i = 0; i < points.size(); i++) {
             plusAdditionPolynomial(i, i + 1);
         }
     }
     
     public void addPoint(Point2D point) {
-        points.add(point);
+        this.addNewPoint(point);
         plusAdditionPolynomial(0, points.size());
     }
     
