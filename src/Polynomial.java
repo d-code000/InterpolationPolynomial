@@ -72,10 +72,6 @@ public class Polynomial {
         return coefficients.hashCode();
     }
     
-    private void deleteIndex(int index) {
-        coefficients.remove(index);
-    }
-    
     // Степень полинома
     public int getDegree() {
         return coefficients.size() - 1;
@@ -113,7 +109,7 @@ public class Polynomial {
     }
     
     public void plus(Polynomial polynomial) {
-        operation(polynomial, (a, b) -> a + b);
+        operation(polynomial, Double::sum);
     }
     
     public void minus(Polynomial polynomial) {

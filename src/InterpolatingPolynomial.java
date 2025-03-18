@@ -67,7 +67,7 @@ public class InterpolatingPolynomial extends Polynomial {
         if (end - start == 1) {
             return points.get(start).getY();
         }
-        else if (end - start > 1) {
+        else {
             // Убираем первую точку из массива (p1, ..., pn)
             var func1 = dividedDifference(start + 1, end);
             
@@ -76,9 +76,6 @@ public class InterpolatingPolynomial extends Polynomial {
             
             return (func1 - func2) /
                     (points.get(end - 1).getX() - points.get(start).getX());
-        }
-        else {
-            throw new IllegalArgumentException("Функция нахождения разделённых разностей требует хотя бы одну точку");
         }
     }
 

@@ -73,12 +73,10 @@ class InterpolatingPolynomialUnitTest {
 
     @Test
     void testDuplicateXThrows() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            new InterpolatingPolynomial(
-                    new Point2D.Double(1, 2),
-                    new Point2D.Double(1, 3) // Повторяющийся x
-            );
-        });
+        assertThrows(IllegalArgumentException.class, () -> new InterpolatingPolynomial(
+                new Point2D.Double(1, 2),
+                new Point2D.Double(1, 3) // Повторяющийся x
+        ));
     }
     
     @Test
@@ -95,11 +93,14 @@ class InterpolatingPolynomialUnitTest {
         );
         
         ip.removePoint(new Point2D.Double(3, 5));
-
+        
         assertEquals(
                 new ArrayList<>(List.of(1.0, 1.0)),
                 ip.getCoefficients()
         );
+        
+        ip.removePoint(new Point2D.Double(0, 0));
+        assertEquals(new ArrayList<>(List.of(new Point2D.Double(1, 2), new Point2D.Double(2, 3))), ip.getPoints());
     }
     
     @Test
