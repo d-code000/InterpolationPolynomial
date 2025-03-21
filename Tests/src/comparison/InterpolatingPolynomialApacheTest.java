@@ -1,5 +1,8 @@
+package comparison;
+
 import org.junit.jupiter.api.RepeatedTest;
 import org.apache.commons.math3.analysis.interpolation.DividedDifferenceInterpolator;
+import polynomial.InterpolatingPolynomial;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;

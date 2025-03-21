@@ -1,4 +1,7 @@
+package load;
+
 import org.junit.jupiter.api.Test;
+import polynomial.InterpolatingPolynomial;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
@@ -6,7 +9,7 @@ import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class InterpolatingPolynomialLoadTest {
+class InterpolatingPolynomialTest {
     
     private double getDurationInSec(long start, long end) {
         long duration = end - start;
