@@ -4,7 +4,8 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Converting/Converting.iml" filepath="$PROJECT_DIR$/Converting/Converting.iml" />
       <module fileurl="file://$PROJECT_DIR$/InterpolationPolynomial.iml" filepath="$PROJECT_DIR$/InterpolationPolynomial.iml" />
-      <module fileurl="file://$PROJECT_DIR$/test/test.iml" filepath="$PROJECT_DIR$/test/test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Polynomial/Polynomial.iml" filepath="$PROJECT_DIR$/Polynomial/Polynomial.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Tests/Tests.iml" filepath="$PROJECT_DIR$/Tests/Tests.iml" />
     </modules>
   </component>
 </project>
