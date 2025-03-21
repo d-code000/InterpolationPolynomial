@@ -1,4 +1,4 @@
-﻿public class Converter {
+public class Converter {
     private Double borderMinX;
     private Double borderMaxX;
     private Double borderMinY;
