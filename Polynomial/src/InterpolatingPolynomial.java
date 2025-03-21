@@ -47,11 +47,15 @@ public class InterpolatingPolynomial extends Polynomial {
         }
         points.add(point);
     }
+    
+    private Integer cantorPairingFunction(Integer a, Integer b) {
+        return (a + b)*(a + b + 1) / 2 + b;
+    }
 
     // Кэширование функции разделенной разности позволяет избежать проблемы, 
     // когда мы заново вычисляем данные, которые вычисляли ранее
     private Double dividedDifference(int start, int end){
-        Integer key = start * points.size() + end;
+        Integer key = cantorPairingFunction(start, end);
 
         if (cache.containsKey(key)) {
             return cache.get(key);
@@ -108,8 +112,8 @@ public class InterpolatingPolynomial extends Polynomial {
     }
     
     public void addPoint(Point2D point) {
-        this.addNewPoint(point);
-        plusAdditionPolynomial(0, points.size());
+        addNewPoint(point);
+        plusAdditionPolynomial(points.size() - 1, points.size());
     }
     
     public void removePoint(Point2D point) {
