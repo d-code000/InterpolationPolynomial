@@ -12,5 +12,6 @@
     <orderEntry type="library" name="apache.commons.math3" level="project" />
     <orderEntry type="module" module-name="Polynomial" />
     <orderEntry type="module" module-name="Converting" />
+    <orderEntry type="module" module-name="InterpolationPolynomial" />
   </component>
 </module>

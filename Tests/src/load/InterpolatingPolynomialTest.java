@@ -26,7 +26,7 @@ class InterpolatingPolynomialTest {
     }
     
     @Test
-    void testComplex(){
+    void testCalculateComplex(){
         var startPointCount = 4000;
         var stepPointsCount = 250;
         var countPointsForApproximation = new ArrayList<Integer>();
@@ -56,7 +56,7 @@ class InterpolatingPolynomialTest {
     }
     
     @Test
-    void testAddPoints(){
+    void testAddPointsComplex(){
         var startPointCount = 5000;
         var stepPointsCount = 500;
 

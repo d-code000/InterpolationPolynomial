@@ -21,8 +21,13 @@ public class Converter {
     
     public Converter(Double borderMinX, Double borderMaxX, Double borderMinY, Double borderMaxY, Integer widthPixels, Integer heightPixels) {
         this(borderMinX, borderMaxX, borderMinY, borderMaxY);
-        this.widthPixels = widthPixels;
-        this.heightPixels = heightPixels;
+        if (widthPixels >= 0 && heightPixels >= 0) {
+            this.widthPixels = widthPixels;
+            this.heightPixels = heightPixels;
+        }
+        else {
+            throw new IllegalArgumentException("Ширина или высота должны быть >= 0px");
+        }
     }
     
     private Integer getWidthPixelsDensity() {

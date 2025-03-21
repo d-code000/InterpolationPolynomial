@@ -101,4 +101,11 @@ class ConverterTest {
             Assertions.assertEquals(expectedScr, row);
         }
     }
+    
+    @Test
+    void negativePixel(){
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            new Converter(1.0, 1.0, 1.0, 1.0, 100, -100);
+        });
+    }
 }
