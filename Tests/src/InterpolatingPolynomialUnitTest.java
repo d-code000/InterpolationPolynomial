@@ -3,6 +3,7 @@ import org.junit.jupiter.api.Test;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -106,17 +107,16 @@ class InterpolatingPolynomialUnitTest {
     @Test
     void testCalculateAndAddPointEqual(){
         var points = new ArrayList<Point2D>();
-        points.add(new Point2D.Double(1, 2));
-        points.add(new Point2D.Double(2, 3));
-        points.add(new Point2D.Double(3, 5));
+        var random = new Random();
+        for (int i = 0; i < 1000; i++) {
+            points.add(new Point2D.Double(random.nextDouble(), random.nextDouble()));
+        }
         
         var polynomial1 = new InterpolatingPolynomial(points);
         var polynomial2 = new InterpolatingPolynomial();
         for (Point2D point : points) {
             polynomial2.addPoint(point);
         }
-        
-        assertEquals(polynomial1, polynomial2);
-        
+        assertArrayEquals(polynomial2.getCoefficients().toArray(new Double[0]), polynomial1.getCoefficients().toArray(new Double[0]));
     }
 }
