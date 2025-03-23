@@ -1,17 +1,20 @@
 package app;
 
-import javax.swing.*;
+import converter.Converter;
+
 import java.awt.*;
 
-public abstract class AbstractPainter extends JPanel implements Painter {
-    private Dimension size;
+public abstract class AbstractPainter implements Painter {
+    protected Dimension size;
+    protected Converter converter;
 
-    public AbstractPainter(Dimension size) {
+    public AbstractPainter(Dimension size, Converter converter) {
         setSize(size);
+        this.converter = converter;
     }
 
-    public AbstractPainter(int width, int height) {
-        setSize(width, height);
+    public AbstractPainter(int width, int height, Converter converter) {
+        this(new Dimension(width, height), converter);
     }
 
     @Override

@@ -104,8 +104,37 @@ class ConverterTest {
     
     @Test
     void negativePixel(){
-        Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            new Converter(1.0, 1.0, 1.0, 1.0, 100, -100);
-        });
+        Assertions.assertThrows(IllegalArgumentException.class, () -> new Converter(1.0, 1.0, 1.0, 1.0, 100, -100));
+    }
+    
+    @Test
+    void borderMinMoreBorderMax(){
+        Assertions.assertThrows(IllegalArgumentException.class, () -> new Converter(1.0, -1.0, 1.0, 1.0, 100, 100));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> new Converter(-1.0, 1.0, 1.0, -1.0, 100, 100));
+    }
+    
+    @Test
+    void goingAbroad(){
+        var converter = new Converter(-1.0, 1.0, -1.0, 1.0, 100, 100);
+
+        Assertions.assertNull(converter.xCrt2Scr(-2.0));
+        Assertions.assertNull(converter.xCrt2Scr(2.0));
+        Assertions.assertNull(converter.yCrt2Scr(-2.0));
+        Assertions.assertNull(converter.yCrt2Scr(2.0));
+        
+        
+        Assertions.assertNull(converter.xScr2Crt(-100));
+        Assertions.assertNull(converter.xScr2Crt(200));
+        Assertions.assertNull(converter.yScr2Crt(-100));
+        Assertions.assertNull(converter.yScr2Crt(200));
+    }
+    
+    @Test
+    void anyTest(){
+        var converter = new Converter(-5.0, 5.0, -5.0, 5.0, 800, 800);
+        
+        Assertions.assertNotEquals(converter.yCrt2Scr(0.0), converter.yCrt2Scr(0.1));
+        Assertions.assertNotEquals(converter.yCrt2Scr(0.0), converter.yCrt2Scr(-0.1));
+        
     }
 }

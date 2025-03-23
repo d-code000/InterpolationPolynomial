@@ -1,26 +1,43 @@
 package app;
 
+import converter.Converter;
+import polynomial.InterpolatingPolynomial;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.geom.Point2D;
 
 public class DrawPanel extends JPanel {
-    private int x;
-    private int y;
-    private Color color;
+    private final Converter converter;
+    private final InterpolatingPolynomial polynomial;
+    private final CartesianPainter cartesianPainter;
+    private final FunctionPainter functionPainter;
     
-    public DrawPanel(int x, int y, Color color) {
-        this.x = x;
-        this.y = y;
-        this.color = color;
-        setOpaque(false);
+    public DrawPanel(int width, int height) {
+        setSize(width, height);
+        converter = new Converter(-5.0, 5.0, -5.0, 5.0, width, height);
+        polynomial = new InterpolatingPolynomial();
+        cartesianPainter = new CartesianPainter(width, height, converter);
+        functionPainter = new FunctionPainter(width, height, converter, polynomial);
+
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                polynomial.addPoint(new Point2D.Double(
+                        converter.xScr2Crt(e.getX()), 
+                        converter.yScr2Crt(e.getY())
+                ));
+                repaint();
+            }
+        });
     }
     
     @Override
     public void paintComponent(Graphics graphics) {
         super.paintComponent(graphics);
-        
-        graphics.setColor(color);
-        graphics.drawLine(0, getHeight() / 2 + y, getWidth(), getHeight() / 2 + y);
-        graphics.drawLine(getWidth() / 2 + x, 0, getWidth() / 2 + x, getHeight());
+        cartesianPainter.paint(graphics);
+        functionPainter.paint(graphics);
     }
 }
