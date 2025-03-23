@@ -9,9 +9,6 @@ public class Converter {
     private Integer widthPixels = 200;
     private Integer heightPixels = 200;
     
-    private final Double stepX = 0.05;
-    private final Double stepY = 0.05;
-    
     public Converter(Double borderMinX, Double borderMaxX, Double borderMinY, Double borderMaxY) {
         if (borderMinX <= borderMaxX) {
             this.borderMinX = borderMinX;
@@ -41,38 +38,38 @@ public class Converter {
     }
     
     private Double getWidthPixelsDensity() {
-        return (widthPixels / ((borderMaxX - borderMinX) / stepX));
+        return widthPixels / (borderMaxX - borderMinX);
     }
     
     private Double getHeightPixelsDensity() {
-        return (heightPixels / ((borderMaxY - borderMinY) / stepY));
+        return heightPixels / (borderMaxY - borderMinY);
     }
     
     public Double xScr2Crt(Integer xPixels){
         if (xPixels < 0 || xPixels > heightPixels) {
             return null;
         }
-        return borderMinX + (xPixels / getWidthPixelsDensity() * stepX);
+        return borderMinX + (xPixels / getWidthPixelsDensity());
     }
     
     public Double yScr2Crt(Integer yPixels){
         if (yPixels < 0 || yPixels > widthPixels) {
             return null;
         }
-        return borderMaxY - (yPixels / getHeightPixelsDensity() * stepY);
+        return borderMaxY - (yPixels / getHeightPixelsDensity());
     }
     
     public Integer xCrt2Scr(Double x){
         if (x < borderMinX || x > borderMaxX) {
             return null;
         }
-        return (int) Math.ceil((Math.abs(x - borderMinX)) / stepX * getWidthPixelsDensity());
+        return (int) Math.ceil((Math.abs(x - borderMinX)) * getWidthPixelsDensity());
     }
     
     public Integer yCrt2Scr(Double y) {
         if (y < borderMinY || y > borderMaxY) {
             return null;
         }
-        return (int) Math.ceil(Math.abs(borderMaxY - y) / stepY * getHeightPixelsDensity());
+        return (int) Math.ceil(Math.abs(borderMaxY - y) * getHeightPixelsDensity());
     }
 }
