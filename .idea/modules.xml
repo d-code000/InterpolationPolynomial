@@ -2,10 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Converting/Converting.iml" filepath="$PROJECT_DIR$/Converting/Converting.iml" />
       <module fileurl="file://$PROJECT_DIR$/InterpolationPolynomial.iml" filepath="$PROJECT_DIR$/InterpolationPolynomial.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Polynomial/Polynomial.iml" filepath="$PROJECT_DIR$/Polynomial/Polynomial.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Tests/Tests.iml" filepath="$PROJECT_DIR$/Tests/Tests.iml" />
+      <module fileurl="file://$PROJECT_DIR$/converting/converting.iml" filepath="$PROJECT_DIR$/converting/converting.iml" />
+      <module fileurl="file://$PROJECT_DIR$/polynomial/polynomial.iml" filepath="$PROJECT_DIR$/polynomial/polynomial.iml" />
     </modules>
   </component>
 </project>
