@@ -1,6 +1,8 @@
 package main.java.converter;
 
 public class Converter {
+    
+    // Условия задачи не позволяют, но я бы сделал отдельный класс Border
     private final Double borderMinX;
     private final Double borderMaxX;
     private final Double borderMinY;
@@ -71,5 +73,13 @@ public class Converter {
             return null;
         }
         return (int) Math.ceil(Math.abs(borderMaxY - y) * getHeightPixelsDensity());
+    }
+    
+    public boolean checkPointCrt2Scr(Double x, Double y) {
+        return (xCrt2Scr(x) != null) && (yCrt2Scr(y) != null);
+    }
+    
+    public boolean checkPointScr2Crt(Integer x, Integer y) {
+        return (xScr2Crt(x) != null) && (yScr2Crt(y) != null);
     }
 }

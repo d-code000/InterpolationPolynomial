@@ -17,18 +17,23 @@ public class DrawPanel extends JPanel {
     
     public DrawPanel(int width, int height) {
         setSize(width, height);
-        converter = new Converter(-5.0, 5.0, -5.0, 5.0, width, height);
+        Border border = new Border(-5.0, 5.0, -5.0, 5.0);
+        
+        // TODO: заменить границы на Border
+        converter = new Converter(border.xMin, border.xMax, border.yMin, border.yMax, width, height);
         polynomial = new InterpolatingPolynomial();
         cartesianPainter = new CartesianPainter(width, height, converter);
-        functionPainter = new FunctionPainter(width, height, converter, polynomial);
+        functionPainter = new FunctionPainter(width, height, converter, polynomial, border);
 
         addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                polynomial.addPoint(new Point2D.Double(
-                        converter.xScr2Crt(e.getX()), 
-                        converter.yScr2Crt(e.getY())
-                ));
+                if (converter.checkPointScr2Crt(e.getX(), e.getY())) {
+                    polynomial.addPoint(new Point2D.Double(
+                            converter.xScr2Crt(e.getX()), 
+                            converter.yScr2Crt(e.getY())
+                    ));
+                }
                 repaint();
             }
         });
