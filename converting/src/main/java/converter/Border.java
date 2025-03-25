@@ -1,10 +1,10 @@
-package main.java.app;
+package main.java.converter;
 
 public class Border {
-    public final double xMin;
-    public final double xMax;
-    public final double yMin;
-    public final double yMax;
+    public double xMin;
+    public double xMax;
+    public double yMin;
+    public double yMax;
 
     public Border(double borderMinX, double borderMaxX, double borderMinY, double borderMaxY) {
         if (borderMinX <= borderMaxX) {

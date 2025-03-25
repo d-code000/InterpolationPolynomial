@@ -1,5 +1,6 @@
 package main.java.app;
 
+import main.java.converter.Border;
 import main.java.converter.Converter;
 import main.java.polynomial.InterpolatingPolynomial;
 
@@ -18,8 +19,7 @@ public class DrawPanel extends JPanel {
     public DrawPanel(int width, int height, Border border) {
         setSize(width, height);
         
-        // TODO: заменить границы на Border
-        converter = new Converter(border.xMin, border.xMax, border.yMin, border.yMax, width, height);
+        converter = new Converter(border, width, height);
         polynomial = new InterpolatingPolynomial();
         cartesianPainter = new CartesianPainter(width, height, converter, border);
         functionPainter = new FunctionPainter(width, height, converter, polynomial, border);

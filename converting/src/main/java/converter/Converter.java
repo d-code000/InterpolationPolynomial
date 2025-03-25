@@ -3,33 +3,21 @@ package main.java.converter;
 public class Converter {
     
     // Условия задачи не позволяют, но я бы сделал отдельный класс Border
-    private final Double borderMinX;
-    private final Double borderMaxX;
-    private final Double borderMinY;
-    private final Double borderMaxY;
+    private final Border border;
     
     private Integer widthPixels = 200;
     private Integer heightPixels = 200;
     
+    public Converter(Border border) {
+        this.border = border;
+    }
+
     public Converter(Double borderMinX, Double borderMaxX, Double borderMinY, Double borderMaxY) {
-        if (borderMinX <= borderMaxX) {
-            this.borderMinX = borderMinX;
-            this.borderMaxX = borderMaxX;
-        }
-        else {
-            throw new IllegalArgumentException("borderMinX > borderMaxX");
-        }
-        if (borderMinY <= borderMaxY) {
-            this.borderMinY = borderMinY;
-            this.borderMaxY = borderMaxY;
-        }
-        else {
-            throw new IllegalArgumentException("borderMinY > borderMaxY");
-        }
+        this.border = new Border(borderMinX, borderMaxX, borderMinY, borderMaxY);
     }
     
-    public Converter(Double borderMinX, Double borderMaxX, Double borderMinY, Double borderMaxY, Integer widthPixels, Integer heightPixels) {
-        this(borderMinX, borderMaxX, borderMinY, borderMaxY);
+    public Converter(Border border, Integer widthPixels, Integer heightPixels) {
+        this(border);
         if (widthPixels >= 0 && heightPixels >= 0) {
             this.widthPixels = widthPixels;
             this.heightPixels = heightPixels;
@@ -39,40 +27,44 @@ public class Converter {
         }
     }
     
+    public Converter(Double borderMinX, Double borderMaxX, Double borderMinY, Double borderMaxY, Integer widthPixels, Integer heightPixels){
+        this(new Border(borderMinX, borderMaxX, borderMinY, borderMaxY), widthPixels, heightPixels);
+    }
+    
     private Double getWidthPixelsDensity() {
-        return widthPixels / (borderMaxX - borderMinX);
+        return widthPixels / (border.xMax - border.xMin);
     }
     
     private Double getHeightPixelsDensity() {
-        return heightPixels / (borderMaxY - borderMinY);
+        return heightPixels / (border.yMax - border.yMin);
     }
     
     public Double xScr2Crt(Integer xPixels){
         if (xPixels < 0 || xPixels > heightPixels) {
             return null;
         }
-        return borderMinX + (xPixels / getWidthPixelsDensity());
+        return border.xMin + (xPixels / getWidthPixelsDensity());
     }
     
     public Double yScr2Crt(Integer yPixels){
         if (yPixels < 0 || yPixels > widthPixels) {
             return null;
         }
-        return borderMaxY - (yPixels / getHeightPixelsDensity());
+        return border.yMax - (yPixels / getHeightPixelsDensity());
     }
     
     public Integer xCrt2Scr(Double x){
-        if (x < borderMinX || x > borderMaxX) {
+        if (x < border.xMin || x > border.xMax) {
             return null;
         }
-        return (int) Math.ceil((Math.abs(x - borderMinX)) * getWidthPixelsDensity());
+        return (int) Math.ceil((Math.abs(x - border.xMin)) * getWidthPixelsDensity());
     }
     
     public Integer yCrt2Scr(Double y) {
-        if (y < borderMinY || y > borderMaxY) {
+        if (y < border.yMin || y > border.yMax) {
             return null;
         }
-        return (int) Math.ceil(Math.abs(borderMaxY - y) * getHeightPixelsDensity());
+        return (int) Math.ceil(Math.abs(border.yMax - y) * getHeightPixelsDensity());
     }
     
     public boolean checkPointCrt2Scr(Double x, Double y) {
