@@ -137,4 +137,18 @@ class ConverterTest {
         Assertions.assertNotEquals(converter.yCrt2Scr(0.0), converter.yCrt2Scr(-0.1));
         
     }
+    
+    @Test
+    void xScr2CrtRatio(){
+        var converter = new Converter(-1.0, 1.0, -1.0, 1.0, 200, 200);
+        
+        Assertions.assertEquals(0.1, converter.xScr2CrtRatio(10));
+    }
+    
+    @Test
+    void yScr2CrtRatio(){
+        var converter = new Converter(-1.0, 1.0, -1.0, 1.0, 200, 200);
+
+        Assertions.assertEquals(0.1, converter.yScr2CrtRatio(10));
+    }
 }
