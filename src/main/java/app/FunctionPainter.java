@@ -9,6 +9,8 @@ import java.awt.geom.Point2D;
 public class FunctionPainter extends AbstractPainter implements Painter {
     private final InterpolatingPolynomial polynomial;
     private final Border border;
+    public Color functionColor = Color.red;
+    public Color pointsColor = Color.gray;
 
     public FunctionPainter(Dimension size, Converter converter, InterpolatingPolynomial polynomial, Border border) {
         super(size, converter);
@@ -23,11 +25,10 @@ public class FunctionPainter extends AbstractPainter implements Painter {
     }
     
     public void paint(Graphics graphics) {
-        var step = Math.abs(border.xMax - border.xMin) / 10e4;
-        
         var pointSize = 2;
-        graphics.setColor(Color.RED);
+        graphics.setColor(functionColor);
         
+        var step = Math.abs(border.xMax - border.xMin) / 10e4;
         for (double x = border.xMin; x <= border.xMax; x += step) {
             var y = polynomial.calc(x);
             if (converter.checkPointCrt2Scr(x, y)) {
@@ -40,7 +41,7 @@ public class FunctionPainter extends AbstractPainter implements Painter {
         }
         
         pointSize = 10;
-        graphics.setColor(Color.GRAY);
+        graphics.setColor(pointsColor);
         
         for (Point2D point : polynomial.getPoints()) {
             if (converter.checkPointCrt2Scr(point.getX(), point.getY())) {
