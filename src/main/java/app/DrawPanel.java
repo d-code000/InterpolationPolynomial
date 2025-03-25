@@ -12,17 +12,16 @@ import java.awt.geom.Point2D;
 public class DrawPanel extends JPanel {
     private final Converter converter;
     private final InterpolatingPolynomial polynomial;
-    private final CartesianPainter cartesianPainter;
-    private final FunctionPainter functionPainter;
+    public final CartesianPainter cartesianPainter;
+    public final FunctionPainter functionPainter;
     
-    public DrawPanel(int width, int height) {
+    public DrawPanel(int width, int height, Border border) {
         setSize(width, height);
-        Border border = new Border(-5.0, 5.0, -5.0, 5.0);
         
         // TODO: заменить границы на Border
         converter = new Converter(border.xMin, border.xMax, border.yMin, border.yMax, width, height);
         polynomial = new InterpolatingPolynomial();
-        cartesianPainter = new CartesianPainter(width, height, converter);
+        cartesianPainter = new CartesianPainter(width, height, converter, border);
         functionPainter = new FunctionPainter(width, height, converter, polynomial, border);
 
         addMouseListener(new MouseAdapter() {

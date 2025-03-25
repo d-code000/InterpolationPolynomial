@@ -82,4 +82,13 @@ public class Converter {
     public boolean checkPointScr2Crt(Integer x, Integer y) {
         return (xScr2Crt(x) != null) && (yScr2Crt(y) != null);
     }
+    
+    // TODO: сделать тесты для новых методов
+    public Double xScr2CrtRatio(Integer xPixels) {
+        return xPixels / getWidthPixelsDensity();
+    }
+    
+    public Double yScr2CrtRatio(Integer yPixels) {
+        return yPixels / getHeightPixelsDensity();
+    }
 }
