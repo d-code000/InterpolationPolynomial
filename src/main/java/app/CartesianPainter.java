@@ -14,12 +14,12 @@ public class CartesianPainter extends AbstractPainter implements Painter {
     }
     
     public void paint(Graphics graphics) {
-        graphics.drawLine(converter.xCrt2Scr(border.xMin), converter.yCrt2Scr(0.0), converter.xCrt2Scr(border.xMax), converter.yCrt2Scr(0.0));
-        graphics.drawLine(converter.xCrt2Scr(0.0), converter.yCrt2Scr(border.yMin), converter.xCrt2Scr(0.0), converter.yCrt2Scr(border.yMax));
+        graphics.drawLine(converter.xCrt2Scr(border.getMinX()), converter.yCrt2Scr(0.0), converter.xCrt2Scr(border.getMaxX()), converter.yCrt2Scr(0.0));
+        graphics.drawLine(converter.xCrt2Scr(0.0), converter.yCrt2Scr(border.getMinY()), converter.xCrt2Scr(0.0), converter.yCrt2Scr(border.getMaxY()));
 
         double epsilon = 1e-6;
         
-        for (double i = border.xMin; i <= border.xMax; i += 0.1) {
+        for (double i = border.getMinX(); i <= border.getMaxX(); i += 0.1) {
             double size;
             if (Math.abs(i) < epsilon) {
                 continue;
@@ -27,6 +27,7 @@ public class CartesianPainter extends AbstractPainter implements Painter {
             else if (Math.abs(i - Math.round(i)) < epsilon) {
                 graphics.setColor(Color.red);
                 size = converter.yScr2CrtRatio(8);
+                graphics.drawString(String.valueOf(Math.round(i)), converter.xCrt2Scr(i), converter.yCrt2Scr(- size - converter.yScr2CrtRatio(12)));
             }
             else if (Math.abs(Math.abs(i) % 1 - 0.5) < epsilon) {
                 graphics.setColor(Color.blue);
@@ -39,7 +40,7 @@ public class CartesianPainter extends AbstractPainter implements Painter {
             graphics.drawLine(converter.xCrt2Scr(i), converter.yCrt2Scr(-size), converter.xCrt2Scr(i), converter.yCrt2Scr(size));
         }
 
-        for (double i = border.yMin; i <= border.yMax; i += 0.1) {
+        for (double i = border.getMinY(); i <= border.getMaxY(); i += 0.1) {
             double size;
 
             if (Math.abs(i) < epsilon) {
@@ -48,6 +49,7 @@ public class CartesianPainter extends AbstractPainter implements Painter {
             else if (Math.abs(i - Math.round(i)) < epsilon) {
                 graphics.setColor(Color.red);
                 size = converter.xScr2CrtRatio(8);
+                graphics.drawString(String.valueOf(Math.round(i)), converter.xCrt2Scr(size + converter.xScr2CrtRatio(6)), converter.yCrt2Scr(i));
             }
             else if (Math.abs(Math.abs(i) % 1 - 0.5) < epsilon) {
                 graphics.setColor(Color.blue);

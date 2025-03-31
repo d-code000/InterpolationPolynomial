@@ -29,8 +29,8 @@ public class FunctionPainter extends AbstractPainter implements Painter {
         var pointSize = 2;
         graphics.setColor(functionColor);
         
-        var step = Math.abs(border.xMax - border.xMin) / 10e4;
-        for (double x = border.xMin; x <= border.xMax; x += step) {
+        var step = Math.abs(border.getMaxX() - border.getMinX()) / 10e4;
+        for (double x = border.getMinX(); x <= border.getMaxX(); x += step) {
             var y = polynomial.calc(x);
             if (converter.checkPointCrt2Scr(x, y)) {
                 graphics.fillOval(

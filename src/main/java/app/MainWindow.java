@@ -38,7 +38,7 @@ public class MainWindow extends JFrame {
         xMinSpinner.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-                border.xMin = (Double) xMinSpinner.getValue();
+                border.setMinX((Double) xMinSpinner.getValue());
                 drawPanel.repaint();
             }
         });
@@ -49,7 +49,7 @@ public class MainWindow extends JFrame {
         xMaxSpinner.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-                border.xMax = (Double) xMaxSpinner.getValue();
+                border.setMaxX((Double) xMaxSpinner.getValue());
                 drawPanel.repaint();
             }
         });
@@ -60,7 +60,7 @@ public class MainWindow extends JFrame {
         yMinSpinner.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-                border.yMin = (Double) yMinSpinner.getValue();
+                border.setMinY((Double) yMinSpinner.getValue());
                 drawPanel.repaint();
             }
         });
@@ -71,7 +71,7 @@ public class MainWindow extends JFrame {
         yMaxSpinner.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-                border.yMax = (Double) yMaxSpinner.getValue();
+                border.setMaxY((Double) yMaxSpinner.getValue());
                 drawPanel.repaint();
             }
         });

@@ -2,9 +2,7 @@ package main.java.converter;
 
 public class Converter {
     
-    // Условия задачи не позволяют, но я бы сделал отдельный класс Border
     private final Border border;
-    
     private Integer widthPixels = 200;
     private Integer heightPixels = 200;
     
@@ -32,39 +30,39 @@ public class Converter {
     }
     
     private Double getWidthPixelsDensity() {
-        return widthPixels / (border.xMax - border.xMin);
+        return widthPixels / (border.getMaxX() - border.getMinX());
     }
     
     private Double getHeightPixelsDensity() {
-        return heightPixels / (border.yMax - border.yMin);
+        return heightPixels / (border.getMaxY() - border.getMinY());
     }
     
     public Double xScr2Crt(Integer xPixels){
         if (xPixels < 0 || xPixels > heightPixels) {
             return null;
         }
-        return border.xMin + (xPixels / getWidthPixelsDensity());
+        return border.getMinX() + (xPixels / getWidthPixelsDensity());
     }
     
     public Double yScr2Crt(Integer yPixels){
         if (yPixels < 0 || yPixels > widthPixels) {
             return null;
         }
-        return border.yMax - (yPixels / getHeightPixelsDensity());
+        return border.getMaxY() - (yPixels / getHeightPixelsDensity());
     }
     
     public Integer xCrt2Scr(Double x){
-        if (x < border.xMin || x > border.xMax) {
+        if (x < border.getMinX() || x > border.getMaxX()) {
             return null;
         }
-        return (int) Math.ceil((Math.abs(x - border.xMin)) * getWidthPixelsDensity());
+        return (int) Math.ceil((Math.abs(x - border.getMinX())) * getWidthPixelsDensity());
     }
     
     public Integer yCrt2Scr(Double y) {
-        if (y < border.yMin || y > border.yMax) {
+        if (y < border.getMinY() || y > border.getMaxY()) {
             return null;
         }
-        return (int) Math.ceil(Math.abs(border.yMax - y) * getHeightPixelsDensity());
+        return (int) Math.ceil(Math.abs(border.getMaxY() - y) * getHeightPixelsDensity());
     }
     
     public boolean checkPointCrt2Scr(Double x, Double y) {
