@@ -6,22 +6,23 @@ import javax.swing.*;
 import java.awt.*;
 
 public class MainWindow extends JFrame {
-    private int width = 600;
-    private int height = 600;
 
-    private double xMin = -5.0;
-    private double xMax = 5.0;
-    private double yMin = -5.0;
-    private double yMax = 5.0;
-
-    private Border border;
-    private DrawPanel drawPanel;
+    private final Border border;
+    private final DrawPanel drawPanel;
 
     public MainWindow() {
-        setTitle("Построение графика полинома");
-        setSize(width + 20, height + 200);
-        setResizable(false);
+        int width = 600;
+        int height = 600;
 
+        double xMin = -5.0;
+        double xMax = 5.0;
+        double yMin = -5.0;
+        double yMax = 5.0;
+        
+        setTitle("Построение графика полинома");
+        setSize(width + 20, height + 120);
+        setResizable(false);
+        
         border = new Border(xMin, xMax, yMin, yMax);
         drawPanel = new DrawPanel(width, height, border);
         drawPanel.functionPainter.functionColor = Color.blue;
@@ -96,7 +97,11 @@ public class MainWindow extends JFrame {
         controlPanel.add(xMaxLabel, gbc);
         gbc.gridx = 3;
         controlPanel.add(xMaxSpinner, gbc);
-
+        gbc.gridx = 4;
+        controlPanel.add(showPointsCheck, gbc);
+        gbc.gridx = 5;
+        controlPanel.add(pointsColorButton, gbc);
+        
         gbc.gridx = 0; gbc.gridy = 1;
         controlPanel.add(yMinLabel, gbc);
         gbc.gridx = 1;
@@ -105,17 +110,11 @@ public class MainWindow extends JFrame {
         controlPanel.add(yMaxLabel, gbc);
         gbc.gridx = 3;
         controlPanel.add(yMaxSpinner, gbc);
-        
-        gbc.gridx = 0; gbc.gridy = 2;
-        controlPanel.add(showPointsCheck, gbc);
-        gbc.gridx = 1;
-        controlPanel.add(pointsColorButton, gbc);
-
-        gbc.gridx = 0; gbc.gridy = 3;
+        gbc.gridx = 4;
         controlPanel.add(showFunctionCheck, gbc);
-        gbc.gridx = 1;
+        gbc.gridx = 5;
         controlPanel.add(functionColorButton, gbc);
-        
+
         setLayout(new BorderLayout());
         add(drawPanel, BorderLayout.CENTER);
         add(controlPanel, BorderLayout.SOUTH);
