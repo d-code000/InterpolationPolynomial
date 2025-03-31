@@ -19,52 +19,50 @@ public class MainWindow extends JFrame {
 
     public MainWindow() {
         setTitle("Построение графика полинома");
-        setSize(width + 20, height + 150);
-//        setResizable(false);
+        setSize(width + 20, height + 200);
+        setResizable(false);
 
         border = new Border(xMin, xMax, yMin, yMax);
         drawPanel = new DrawPanel(width, height, border);
         drawPanel.functionPainter.functionColor = Color.blue;
         drawPanel.functionPainter.pointsColor = Color.green;
 
-        JPanel controlPanel = new JPanel();
-        controlPanel.setLayout(new FlowLayout());
+        JPanel controlPanel = new JPanel(new GridBagLayout()); // Используем GridBagLayout
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.insets = new Insets(5, 5, 5, 5);
 
         JLabel xMinLabel = new JLabel("X Min:");
-        SpinnerNumberModel xMinModel = new SpinnerNumberModel(xMin, -100.0, 100.0, 0.5);
-        JSpinner xMinSpinner = new JSpinner(xMinModel);
+        JLabel xMaxLabel = new JLabel("X Max:");
+        JLabel yMinLabel = new JLabel("Y Min:");
+        JLabel yMaxLabel = new JLabel("Y Max:");
+
+        JSpinner xMinSpinner = new JSpinner(new SpinnerNumberModel(xMin, -100.0, 100.0, 0.5));
         xMinSpinner.addChangeListener(e -> {
             border.setMinX((Double) xMinSpinner.getValue());
             drawPanel.repaint();
         });
 
-        JLabel xMaxLabel = new JLabel("X Max:");
-        SpinnerNumberModel xMaxModel = new SpinnerNumberModel(xMax, -100.0, 100.0, 0.5);
-        JSpinner xMaxSpinner = new JSpinner(xMaxModel);
+        JSpinner xMaxSpinner = new JSpinner(new SpinnerNumberModel(xMax, -100.0, 100.0, 0.5));
         xMaxSpinner.addChangeListener(e -> {
             border.setMaxX((Double) xMaxSpinner.getValue());
             drawPanel.repaint();
         });
 
-        JLabel yMinLabel = new JLabel("Y Min:");
-        SpinnerNumberModel yMinModel = new SpinnerNumberModel(yMin, -100.0, 100.0, 0.5);
-        JSpinner yMinSpinner = new JSpinner(yMinModel);
+        JSpinner yMinSpinner = new JSpinner(new SpinnerNumberModel(yMin, -100.0, 100.0, 0.5));
         yMinSpinner.addChangeListener(e -> {
             border.setMinY((Double) yMinSpinner.getValue());
             drawPanel.repaint();
         });
 
-        JLabel yMaxLabel = new JLabel("Y Max:");
-        SpinnerNumberModel yMaxModel = new SpinnerNumberModel(yMax, -100.0, 100.0, 0.5);
-        JSpinner yMaxSpinner = new JSpinner(yMaxModel);
+        JSpinner yMaxSpinner = new JSpinner(new SpinnerNumberModel(yMax, -100.0, 100.0, 0.5));
         yMaxSpinner.addChangeListener(e -> {
             border.setMaxY((Double) yMaxSpinner.getValue());
             drawPanel.repaint();
         });
-        
+
         JCheckBox showPointsCheck = new JCheckBox("Отображать точки", true);
         JCheckBox showFunctionCheck = new JCheckBox("Отображать график функции", true);
-        JCheckBox showDerivativeCheck = new JCheckBox("Отображать производную", false);
 
         JButton pointsColorButton = new JButton();
         pointsColorButton.setBackground(Color.green);
@@ -89,35 +87,35 @@ public class MainWindow extends JFrame {
                 drawPanel.repaint();
             }
         });
+        
+        gbc.gridx = 0; gbc.gridy = 0;
+        controlPanel.add(xMinLabel, gbc);
+        gbc.gridx = 1;
+        controlPanel.add(xMinSpinner, gbc);
+        gbc.gridx = 2;
+        controlPanel.add(xMaxLabel, gbc);
+        gbc.gridx = 3;
+        controlPanel.add(xMaxSpinner, gbc);
 
-        JButton derivativeColorButton = new JButton();
-        derivativeColorButton.setBackground(Color.pink);
-        derivativeColorButton.setPreferredSize(new Dimension(20, 20));
-        derivativeColorButton.addActionListener(e -> {
-            Color color = JColorChooser.showDialog(this, "Выберите цвет производной", derivativeColorButton.getBackground());
-            if (color != null) {
-                derivativeColorButton.setBackground(color);
-//                drawPanel.functionPainter.derivativeColor = color;
-                drawPanel.repaint();
-            }
-        });
+        gbc.gridx = 0; gbc.gridy = 1;
+        controlPanel.add(yMinLabel, gbc);
+        gbc.gridx = 1;
+        controlPanel.add(yMinSpinner, gbc);
+        gbc.gridx = 2;
+        controlPanel.add(yMaxLabel, gbc);
+        gbc.gridx = 3;
+        controlPanel.add(yMaxSpinner, gbc);
+        
+        gbc.gridx = 0; gbc.gridy = 2;
+        controlPanel.add(showPointsCheck, gbc);
+        gbc.gridx = 1;
+        controlPanel.add(pointsColorButton, gbc);
 
-        controlPanel.add(xMinLabel);
-        controlPanel.add(xMinSpinner);
-        controlPanel.add(xMaxLabel);
-        controlPanel.add(xMaxSpinner);
-        controlPanel.add(yMinLabel);
-        controlPanel.add(yMinSpinner);
-        controlPanel.add(yMaxLabel);
-        controlPanel.add(yMaxSpinner);
-
-        controlPanel.add(showPointsCheck);
-        controlPanel.add(pointsColorButton);
-        controlPanel.add(showFunctionCheck);
-        controlPanel.add(functionColorButton);
-        controlPanel.add(showDerivativeCheck);
-        controlPanel.add(derivativeColorButton);
-
+        gbc.gridx = 0; gbc.gridy = 3;
+        controlPanel.add(showFunctionCheck, gbc);
+        gbc.gridx = 1;
+        controlPanel.add(functionColorButton, gbc);
+        
         setLayout(new BorderLayout());
         add(drawPanel, BorderLayout.CENTER);
         add(controlPanel, BorderLayout.SOUTH);
