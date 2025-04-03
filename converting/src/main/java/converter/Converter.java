@@ -14,8 +14,8 @@ public class Converter {
         this.border = new Border(borderMinX, borderMaxX, borderMinY, borderMaxY);
     }
     
-    public Converter(Border border, Integer widthPixels, Integer heightPixels) {
-        this(border);
+    public Converter(Border border, Integer widthPixels, Integer heightPixels){
+        this.border = border;
         if (widthPixels >= 0 && heightPixels >= 0) {
             this.widthPixels = widthPixels;
             this.heightPixels = heightPixels;
@@ -25,7 +25,7 @@ public class Converter {
         }
     }
     
-    public Converter(Double borderMinX, Double borderMaxX, Double borderMinY, Double borderMaxY, Integer widthPixels, Integer heightPixels){
+    public Converter(Double borderMinX, Double borderMaxX, Double borderMinY, Double borderMaxY, Integer widthPixels, Integer heightPixels) {
         this(new Border(borderMinX, borderMaxX, borderMinY, borderMaxY), widthPixels, heightPixels);
     }
     
@@ -72,8 +72,7 @@ public class Converter {
     public boolean checkPointScr2Crt(Integer x, Integer y) {
         return (xScr2Crt(x) != null) && (yScr2Crt(y) != null);
     }
-    
-    // TODO: сделать тесты для новых методов
+
     public Double xScr2CrtRatio(Integer xPixels) {
         return xPixels / getWidthPixelsDensity();
     }

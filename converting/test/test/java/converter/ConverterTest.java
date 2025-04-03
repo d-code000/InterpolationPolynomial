@@ -1,5 +1,6 @@
 package test.java.converter;
 
+import main.java.converter.Border;
 import main.java.converter.Converter;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -30,6 +31,16 @@ class ConverterTest {
 
     private ArrayList<Integer> getExpectedScr(){
         return new ArrayList<>(List.of(0, 50, 100, 150, 200));
+    }
+    
+    @Test
+    void constructors(){
+        var border = new Border(-1.0, 1.0, -1.0, 1.0);
+        
+        new Converter(border);
+        new Converter(border, 100, 100);
+        new Converter(-1.0, 1.0, -1.0, 1.0);
+        new Converter(-3.0, -1.0, -3.0, 1.0, 100,100);
     }
 
     @Test
@@ -104,7 +115,7 @@ class ConverterTest {
     
     @Test
     void negativePixel(){
-        Assertions.assertThrows(IllegalArgumentException.class, () -> new Converter(1.0, 1.0, 1.0, 1.0, 100, -100));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> new Converter(-1.0, 1.0, -1.0, 1.0, 100, -100));
     }
     
     @Test
@@ -136,6 +147,24 @@ class ConverterTest {
         Assertions.assertNotEquals(converter.yCrt2Scr(0.0), converter.yCrt2Scr(0.1));
         Assertions.assertNotEquals(converter.yCrt2Scr(0.0), converter.yCrt2Scr(-0.1));
         
+    }
+    
+    @Test
+    void checkPointCrt2Scr(){
+        var converter = new Converter(-1.0, 1.0, -1.0, 1.0, 200, 200);
+
+        Assertions.assertTrue(converter.checkPointCrt2Scr(0.5, 0.5));
+        Assertions.assertFalse(converter.checkPointCrt2Scr(0.5, -1.1));
+        Assertions.assertFalse(converter.checkPointCrt2Scr(-1.1, 0.5));
+    }
+    
+    @Test
+    void checkPointScr2Crt(){
+        var converter = new Converter(-1.0, 1.0, -1.0, 1.0, 200, 200);
+        
+        Assertions.assertTrue(converter.checkPointScr2Crt(134, 67));
+        Assertions.assertFalse(converter.checkPointScr2Crt(134, -67));
+        Assertions.assertFalse(converter.checkPointScr2Crt(-134, 67));
     }
     
     @Test
