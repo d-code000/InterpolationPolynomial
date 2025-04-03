@@ -4,7 +4,6 @@ import main.java.converter.Border;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.Point2D;
 
 public class MainWindow extends JFrame {
 
@@ -40,25 +39,25 @@ public class MainWindow extends JFrame {
         JLabel yMaxLabel = new JLabel("Y Max:");
 
         JSpinner xMinSpinner = new JSpinner(new SpinnerNumberModel(xMin, -100.0, 100.0, 0.5));
-        xMinSpinner.addChangeListener(e -> {
+        xMinSpinner.addChangeListener(_ -> {
             border.setMinX((Double) xMinSpinner.getValue());
             drawPanel.repaint();
         });
 
         JSpinner xMaxSpinner = new JSpinner(new SpinnerNumberModel(xMax, -100.0, 100.0, 0.5));
-        xMaxSpinner.addChangeListener(e -> {
+        xMaxSpinner.addChangeListener(_ -> {
             border.setMaxX((Double) xMaxSpinner.getValue());
             drawPanel.repaint();
         });
 
         JSpinner yMinSpinner = new JSpinner(new SpinnerNumberModel(yMin, -100.0, 100.0, 0.5));
-        yMinSpinner.addChangeListener(e -> {
+        yMinSpinner.addChangeListener(_ -> {
             border.setMinY((Double) yMinSpinner.getValue());
             drawPanel.repaint();
         });
 
         JSpinner yMaxSpinner = new JSpinner(new SpinnerNumberModel(yMax, -100.0, 100.0, 0.5));
-        yMaxSpinner.addChangeListener(e -> {
+        yMaxSpinner.addChangeListener(_ -> {
             border.setMaxY((Double) yMaxSpinner.getValue());
             drawPanel.repaint();
         });
@@ -66,12 +65,12 @@ public class MainWindow extends JFrame {
         JCheckBox showPointsCheck = new JCheckBox("Отображать точки", true);
         JCheckBox showFunctionCheck = new JCheckBox("Отображать график функции", true);
 
-        showPointsCheck.addActionListener(e -> {
+        showPointsCheck.addActionListener(_ -> {
             drawPanel.functionPainter.drawPoints = showPointsCheck.isSelected();
             drawPanel.repaint();
         });
 
-        showFunctionCheck.addActionListener(e -> {
+        showFunctionCheck.addActionListener(_ -> {
             drawPanel.functionPainter.drawFunction = showFunctionCheck.isSelected();
             drawPanel.repaint();
         });
@@ -79,7 +78,7 @@ public class MainWindow extends JFrame {
         JButton pointsColorButton = new JButton();
         pointsColorButton.setBackground(Color.green);
         pointsColorButton.setPreferredSize(new Dimension(20, 20));
-        pointsColorButton.addActionListener(e -> {
+        pointsColorButton.addActionListener(_ -> {
             Color color = JColorChooser.showDialog(this, "Выберите цвет точек", pointsColorButton.getBackground());
             if (color != null) {
                 pointsColorButton.setBackground(color);
@@ -91,7 +90,7 @@ public class MainWindow extends JFrame {
         JButton functionColorButton = new JButton();
         functionColorButton.setBackground(Color.blue);
         functionColorButton.setPreferredSize(new Dimension(20, 20));
-        functionColorButton.addActionListener(e -> {
+        functionColorButton.addActionListener(_ -> {
             Color color = JColorChooser.showDialog(this, "Выберите цвет функции", functionColorButton.getBackground());
             if (color != null) {
                 functionColorButton.setBackground(color);
