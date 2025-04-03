@@ -14,12 +14,6 @@ public class FunctionPainter extends AbstractPainter implements Painter {
     public Boolean drawPoints = true;
     public Color functionColor = Color.red;
     public Color pointsColor = Color.gray;
-
-    public FunctionPainter(Dimension size, Converter converter, InterpolatingPolynomial polynomial, Border border) {
-        super(size, converter);
-        this.polynomial = polynomial;
-        this.border = border;
-    }
     
     public FunctionPainter(int width, int height, Converter converter, InterpolatingPolynomial polynomial, Border border) {
         super(width, height, converter);
