@@ -4,6 +4,7 @@ import main.java.converter.Border;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.geom.Point2D;
 
 public class MainWindow extends JFrame {
 
@@ -64,6 +65,16 @@ public class MainWindow extends JFrame {
 
         JCheckBox showPointsCheck = new JCheckBox("Отображать точки", true);
         JCheckBox showFunctionCheck = new JCheckBox("Отображать график функции", true);
+
+        showPointsCheck.addActionListener(e -> {
+            drawPanel.functionPainter.drawPoints = showPointsCheck.isSelected();
+            drawPanel.repaint();
+        });
+
+        showFunctionCheck.addActionListener(e -> {
+            drawPanel.functionPainter.drawFunction = showFunctionCheck.isSelected();
+            drawPanel.repaint();
+        });
 
         JButton pointsColorButton = new JButton();
         pointsColorButton.setBackground(Color.green);
