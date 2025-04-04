@@ -28,7 +28,7 @@ public class MainWindow extends JFrame {
         drawPanel.functionPainter.functionColor = Color.blue;
         drawPanel.functionPainter.pointsColor = Color.green;
 
-        JPanel controlPanel = new JPanel(new GridBagLayout()); // Используем GridBagLayout
+        JPanel controlPanel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.insets = new Insets(5, 5, 5, 5);
