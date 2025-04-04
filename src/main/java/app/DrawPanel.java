@@ -27,12 +27,10 @@ public class DrawPanel extends JPanel {
         addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                if (converter.checkPointScr2Crt(e.getX(), e.getY())) {
-                    polynomial.addPoint(new Point2D.Double(
-                            converter.xScr2Crt(e.getX()), 
-                            converter.yScr2Crt(e.getY())
-                    ));
-                }
+                polynomial.addPoint(new Point2D.Double(
+                        converter.xScr2Crt(e.getX()), 
+                        converter.yScr2Crt(e.getY())
+                ));
                 repaint();
             }
         });

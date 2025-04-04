@@ -30,13 +30,11 @@ public class FunctionPainter extends AbstractPainter implements Painter {
             var step = Math.abs(border.getMaxX() - border.getMinX()) / 10e4;
             for (double x = border.getMinX(); x <= border.getMaxX(); x += step) {
                 var y = polynomial.calc(x);
-                if (converter.checkPointCrt2Scr(x, y)) {
-                    graphics.fillOval(
-                            converter.xCrt2Scr(x) - pointSize / 2,
-                            converter.yCrt2Scr(y) - pointSize / 2,
-                            pointSize, pointSize
-                    );
-                }
+                graphics.fillOval(
+                        converter.xCrt2Scr(x) - pointSize / 2,
+                        converter.yCrt2Scr(y) - pointSize / 2,
+                        pointSize, pointSize
+                );
             }
         }
         
@@ -45,13 +43,11 @@ public class FunctionPainter extends AbstractPainter implements Painter {
             graphics.setColor(pointsColor);
 
             for (Point2D point : polynomial.getPoints()) {
-                if (converter.checkPointCrt2Scr(point.getX(), point.getY())) {
-                    graphics.fillOval(
-                            converter.xCrt2Scr(point.getX()) - pointSize / 2,
-                            converter.yCrt2Scr(point.getY()) - pointSize / 2,
-                            pointSize, pointSize
-                    );
-                }
+                graphics.fillOval(
+                        converter.xCrt2Scr(point.getX()) - pointSize / 2,
+                        converter.yCrt2Scr(point.getY()) - pointSize / 2,
+                        pointSize, pointSize
+                );
             }
         }
     }
