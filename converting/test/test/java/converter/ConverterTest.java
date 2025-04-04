@@ -6,31 +6,52 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 class ConverterTest {
     
-    private Converter[] getConverters(){
-        return new Converter[]{
+    private ArrayList<ConverterHelper> getHelpers(){
+        var helpers = new ArrayList<ConverterHelper>();
+        
+        helpers.add(new ConverterHelper(
                 new Converter(-1.0, 1.0, -1.0, 1.0, 200, 200),
+                new ArrayList<>(Arrays.asList(
+                        new ArrayList<>(List.of(-1.0, -0.5, 0.0, 0.5, 1.0)),
+                        new ArrayList<>(List.of(-2.0, -1.5, 1.5, 2.0))
+                )),
+                new ArrayList<>(Arrays.asList(
+                        new ArrayList<>(List.of(0, 50, 100, 150, 200)),
+                        new ArrayList<>(List.of(-100, -50, 250, 300))
+                ))
+        ));
+        
+        helpers.add(new ConverterHelper(
                 new Converter(-3.0, -1.0, -3.0, -1.0, 200, 200),
-                new Converter(1.0, 3.0, 1.0, 3.0, 200, 200)
-        };
-    }
-
-    private ArrayList<ArrayList<Double>> getExpectedCrt() {
-        var crt = new ArrayList<ArrayList<Double>>();
-
-        crt.add(new ArrayList<>(List.of(-1.0, -0.5, 0.0, 0.5, 1.0)));
-        crt.add(new ArrayList<>(List.of(-3.0, -2.5, -2.0, -1.5, -1.0)));
-        crt.add(new ArrayList<>(List.of(1.0, 1.5, 2.0, 2.5, 3.0)));
-
-        return crt;
-    }
-
-    private ArrayList<Integer> getExpectedScr(){
-        return new ArrayList<>(List.of(0, 50, 100, 150, 200));
+                new ArrayList<>(Arrays.asList(
+                        new ArrayList<>(List.of(-3.0, -2.5, -2.0, -1.5, -1.0)),
+                        new ArrayList<>(List.of(-4.0, -3.5, -0.5, 0.0))
+                )),
+                new ArrayList<>(Arrays.asList(
+                        new ArrayList<>(List.of(0, 50, 100, 150, 200)),
+                        new ArrayList<>(List.of(-100, -50, 250, 300))
+                ))
+        ));
+        
+        helpers.add(new ConverterHelper(
+                new Converter(1.0, 3.0, 1.0, 3.0, 200, 200),
+                new ArrayList<>(Arrays.asList(
+                        new ArrayList<>(List.of(1.0, 1.5, 2.0, 2.5, 3.0)),
+                        new ArrayList<>(List.of(0.0, 0.5, 3.5, 4.0))
+                )),
+                new ArrayList<>(Arrays.asList(
+                        new ArrayList<>(List.of(0, 50, 100, 150, 200)),
+                        new ArrayList<>(List.of(-100, -50, 250, 300))
+                ))
+        ));
+        
+        return helpers;
     }
     
     @Test
@@ -45,71 +66,75 @@ class ConverterTest {
 
     @Test
     void xScr2Crt() {
-        var converters = getConverters();
-        
-        var expectedCrt = getExpectedCrt();
-        var expectedScr = getExpectedScr();
-        
-        for (int i = 0; i < converters.length; i++) {
-            var row = new ArrayList<Double>();
-            for (var src : expectedScr) {
-                row.add(converters[i].xScr2Crt(src));
+        for (ConverterHelper test : getHelpers()){
+            var converter = test.getConverter();
+            var expectedCrtArrays = test.getExpectedCrt();
+            var expectedScrArrays = test.getExpectedScr();
+            
+            for (int i = 0; i < expectedScrArrays.size(); i++){
+                var row = new ArrayList<Double>();
+                for (var scr: expectedScrArrays.get(i)){
+                    row.add(converter.xScr2Crt(scr));
+                }
+                
+                Assertions.assertArrayEquals(expectedCrtArrays.get(i).toArray(), row.toArray());
             }
-            Assertions.assertEquals(expectedCrt.get(i), row);
         }
     }
 
     @Test
     void yScr2Crt() {
-        var converters = getConverters();
+        for (ConverterHelper test : getHelpers()){
+            var converter = test.getConverter();
+            var expectedCrtArrays = test.getExpectedCrt();
+            var expectedScrArrays = test.getExpectedScr();
 
-        var expectedCrt = getExpectedCrt();
-        var expectedScr = getExpectedScr();
+            for (int i = 0; i < expectedScrArrays.size(); i++){
+                var row = new ArrayList<Double>();
+                for (var scr: expectedScrArrays.get(i)){
+                    row.add(converter.yScr2Crt(scr));
+                }
 
-        for (int i = 0; i < converters.length; i++) {
-            var row = new ArrayList<Double>();
-            for (var src : expectedScr) {
-                row.add(converters[i].yScr2Crt(src));
+                Collections.reverse(row);
+                Assertions.assertArrayEquals(expectedCrtArrays.get(i).toArray(), row.toArray());
             }
-            
-            // Ординаты у декартовой и экранной систем координат разнонаправленны
-            Collections.reverse(expectedCrt.get(i));
-            Assertions.assertEquals(expectedCrt.get(i), row);
         }
     }
-
+    
     @Test
     void xCrt2Scr() {
-        var converters = getConverters();
+        for (ConverterHelper test : getHelpers()){
+            var converter = test.getConverter();
+            var expectedCrtArrays = test.getExpectedCrt();
+            var expectedScrArrays = test.getExpectedScr();
 
-        var expectedCrt = getExpectedCrt();
-        var expectedScr = getExpectedScr();
-
-        for (int i = 0; i < converters.length; i++) {
+            for (int i = 0; i < expectedCrtArrays.size(); i++){
                 var row = new ArrayList<Integer>();
-                for (var crt : expectedCrt.get(i)) {
-                    row.add(converters[i].xCrt2Scr(crt));
+                for (var crt: expectedCrtArrays.get(i)){
+                    row.add(converter.xCrt2Scr(crt));
                 }
-                Assertions.assertEquals(expectedScr, row);
+
+                Assertions.assertArrayEquals(expectedScrArrays.get(i).toArray(), row.toArray());
             }
         }
-
+    }
+    
     @Test
     void yCrt2Scr() {
-        var converters = getConverters();
+        for (ConverterHelper test : getHelpers()){
+            var converter = test.getConverter();
+            var expectedCrtArrays = test.getExpectedCrt();
+            var expectedScrArrays = test.getExpectedScr();
 
-        var expectedCrt = getExpectedCrt();
-        var expectedScr = getExpectedScr();
-        
-        for (int i = 0; i < converters.length; i++) {
-            var row = new ArrayList<Integer>();
-            for (var crt : expectedCrt.get(i)) {
-                row.add(converters[i].yCrt2Scr(crt));
+            for (int i = 0; i < expectedCrtArrays.size(); i++){
+                var row = new ArrayList<Integer>();
+                for (var crt: expectedCrtArrays.get(i)){
+                    row.add(converter.yCrt2Scr(crt));
+                }
+
+                Collections.reverse(row);
+                Assertions.assertArrayEquals(expectedScrArrays.get(i).toArray(), row.toArray());
             }
-
-            // Ординаты у декартовой и экранной систем координат разнонаправленны
-            Collections.reverse(row);
-            Assertions.assertEquals(expectedScr, row);
         }
     }
     
@@ -125,46 +150,12 @@ class ConverterTest {
     }
     
     @Test
-    void goingAbroad(){
-        var converter = new Converter(-1.0, 1.0, -1.0, 1.0, 100, 100);
-
-        Assertions.assertNull(converter.xCrt2Scr(-2.0));
-        Assertions.assertNull(converter.xCrt2Scr(2.0));
-        Assertions.assertNull(converter.yCrt2Scr(-2.0));
-        Assertions.assertNull(converter.yCrt2Scr(2.0));
-        
-        
-        Assertions.assertNull(converter.xScr2Crt(-100));
-        Assertions.assertNull(converter.xScr2Crt(200));
-        Assertions.assertNull(converter.yScr2Crt(-100));
-        Assertions.assertNull(converter.yScr2Crt(200));
-    }
-    
-    @Test
     void anyTest(){
         var converter = new Converter(-5.0, 5.0, -5.0, 5.0, 800, 800);
         
         Assertions.assertNotEquals(converter.yCrt2Scr(0.0), converter.yCrt2Scr(0.1));
         Assertions.assertNotEquals(converter.yCrt2Scr(0.0), converter.yCrt2Scr(-0.1));
         
-    }
-    
-    @Test
-    void checkPointCrt2Scr(){
-        var converter = new Converter(-1.0, 1.0, -1.0, 1.0, 200, 200);
-
-        Assertions.assertTrue(converter.checkPointCrt2Scr(0.5, 0.5));
-        Assertions.assertFalse(converter.checkPointCrt2Scr(0.5, -1.1));
-        Assertions.assertFalse(converter.checkPointCrt2Scr(-1.1, 0.5));
-    }
-    
-    @Test
-    void checkPointScr2Crt(){
-        var converter = new Converter(-1.0, 1.0, -1.0, 1.0, 200, 200);
-        
-        Assertions.assertTrue(converter.checkPointScr2Crt(134, 67));
-        Assertions.assertFalse(converter.checkPointScr2Crt(134, -67));
-        Assertions.assertFalse(converter.checkPointScr2Crt(-134, 67));
     }
     
     @Test
