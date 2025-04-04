@@ -38,39 +38,19 @@ public class Converter {
     }
     
     public Double xScr2Crt(Integer xPixels){
-        if (xPixels < 0 || xPixels > heightPixels) {
-            return null;
-        }
         return border.getMinX() + (xPixels / getWidthPixelsDensity());
     }
     
     public Double yScr2Crt(Integer yPixels){
-        if (yPixels < 0 || yPixels > widthPixels) {
-            return null;
-        }
         return border.getMaxY() - (yPixels / getHeightPixelsDensity());
     }
     
     public Integer xCrt2Scr(Double x){
-        if (x < border.getMinX() || x > border.getMaxX()) {
-            return null;
-        }
-        return (int) Math.ceil((Math.abs(x - border.getMinX())) * getWidthPixelsDensity());
+        return (int) Math.ceil((x - border.getMinX()) * getWidthPixelsDensity());
     }
     
     public Integer yCrt2Scr(Double y) {
-        if (y < border.getMinY() || y > border.getMaxY()) {
-            return null;
-        }
-        return (int) Math.ceil(Math.abs(border.getMaxY() - y) * getHeightPixelsDensity());
-    }
-    
-    public boolean checkPointCrt2Scr(Double x, Double y) {
-        return (xCrt2Scr(x) != null) && (yCrt2Scr(y) != null);
-    }
-    
-    public boolean checkPointScr2Crt(Integer x, Integer y) {
-        return (xScr2Crt(x) != null) && (yScr2Crt(y) != null);
+        return (int) Math.ceil((border.getMaxY() - y) * getHeightPixelsDensity());
     }
 
     public Double xScr2CrtRatio(Integer xPixels) {
