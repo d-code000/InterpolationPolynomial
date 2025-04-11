@@ -1,14 +1,13 @@
 package main.java.app;
 
-import main.java.converter.Border;
+import main.java.converter.Converter;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class MainWindow extends JFrame {
-
-    private final Border border;
     private final DrawPanel drawPanel;
+    private final Converter converter;
 
     public MainWindow() {
         int width = 600;
@@ -23,8 +22,8 @@ public class MainWindow extends JFrame {
         setSize(width + 20, height + 120);
         setResizable(false);
         
-        border = new Border(xMin, xMax, yMin, yMax);
-        drawPanel = new DrawPanel(width, height, border);
+        converter = new Converter(xMin, xMax, yMin, yMax, width, height);
+        drawPanel = new DrawPanel(width, height, converter);
         drawPanel.functionPainter.functionColor = Color.blue;
         drawPanel.functionPainter.pointsColor = Color.green;
 
@@ -40,25 +39,25 @@ public class MainWindow extends JFrame {
 
         JSpinner xMinSpinner = new JSpinner(new SpinnerNumberModel(xMin, -100.0, 100.0, 0.5));
         xMinSpinner.addChangeListener(_ -> {
-            border.setMinX((Double) xMinSpinner.getValue());
+            converter.border.setMinX((Double) xMinSpinner.getValue());
             drawPanel.repaint();
         });
 
         JSpinner xMaxSpinner = new JSpinner(new SpinnerNumberModel(xMax, -100.0, 100.0, 0.5));
         xMaxSpinner.addChangeListener(_ -> {
-            border.setMaxX((Double) xMaxSpinner.getValue());
+            converter.border.setMaxX((Double) xMaxSpinner.getValue());
             drawPanel.repaint();
         });
 
         JSpinner yMinSpinner = new JSpinner(new SpinnerNumberModel(yMin, -100.0, 100.0, 0.5));
         yMinSpinner.addChangeListener(_ -> {
-            border.setMinY((Double) yMinSpinner.getValue());
+            converter.border.setMinY((Double) yMinSpinner.getValue());
             drawPanel.repaint();
         });
 
         JSpinner yMaxSpinner = new JSpinner(new SpinnerNumberModel(yMax, -100.0, 100.0, 0.5));
         yMaxSpinner.addChangeListener(_ -> {
-            border.setMaxY((Double) yMaxSpinner.getValue());
+            converter.border.setMaxY((Double) yMaxSpinner.getValue());
             drawPanel.repaint();
         });
 

@@ -11,18 +11,15 @@ import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
 
 public class DrawPanel extends JPanel {
-    private final Converter converter;
     private final InterpolatingPolynomial polynomial;
     public final CartesianPainter cartesianPainter;
     public final FunctionPainter functionPainter;
     
-    public DrawPanel(int width, int height, Border border) {
+    public DrawPanel(int width, int height, Converter converter) {
         setSize(width, height);
-        
-        converter = new Converter(border, width, height);
         polynomial = new InterpolatingPolynomial();
-        cartesianPainter = new CartesianPainter(width, height, converter, border);
-        functionPainter = new FunctionPainter(width, height, converter, polynomial, border);
+        cartesianPainter = new CartesianPainter(width, height, converter);
+        functionPainter = new FunctionPainter(width, height, converter, polynomial);
 
         addMouseListener(new MouseAdapter() {
             @Override

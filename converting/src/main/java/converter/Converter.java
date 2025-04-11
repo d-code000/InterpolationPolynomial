@@ -2,20 +2,16 @@ package main.java.converter;
 
 public class Converter {
     
-    private final Border border;
+    public final Border border;
     private Integer widthPixels = 200;
     private Integer heightPixels = 200;
-    
-    public Converter(Border border) {
-        this.border = border;
-    }
 
     public Converter(Double borderMinX, Double borderMaxX, Double borderMinY, Double borderMaxY) {
         this.border = new Border(borderMinX, borderMaxX, borderMinY, borderMaxY);
     }
     
-    public Converter(Border border, Integer widthPixels, Integer heightPixels){
-        this.border = border;
+    public Converter(Double borderMinX, Double borderMaxX, Double borderMinY, Double borderMaxY, Integer widthPixels, Integer heightPixels) {
+        this(borderMinX, borderMaxX, borderMinY, borderMaxY);
         if (widthPixels >= 0 && heightPixels >= 0) {
             this.widthPixels = widthPixels;
             this.heightPixels = heightPixels;
@@ -23,10 +19,6 @@ public class Converter {
         else {
             throw new IllegalArgumentException("Ширина и высота должны быть >= 0px");
         }
-    }
-    
-    public Converter(Double borderMinX, Double borderMaxX, Double borderMinY, Double borderMaxY, Integer widthPixels, Integer heightPixels) {
-        this(new Border(borderMinX, borderMaxX, borderMinY, borderMaxY), widthPixels, heightPixels);
     }
     
     private Double getWidthPixelsDensity() {

@@ -56,10 +56,6 @@ class ConverterTest {
     
     @Test
     void constructors(){
-        var border = new Border(-1.0, 1.0, -1.0, 1.0);
-        
-        new Converter(border);
-        new Converter(border, 100, 100);
         new Converter(-1.0, 1.0, -1.0, 1.0);
         new Converter(-3.0, -1.0, -3.0, 1.0, 100,100);
     }
