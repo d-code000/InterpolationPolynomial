@@ -3,8 +3,23 @@ package main.java.converter;
 public class Converter {
     
     public final Border border;
+
     private Integer widthPixels = 200;
     private Integer heightPixels = 200;
+
+    public void setWidthPixels(Integer widthPixels) {
+        if (widthPixels < 0) {
+            throw new IllegalArgumentException("Ширина должна быть неотрицательным числом");
+        }
+        this.widthPixels = widthPixels;
+    }
+    
+    public void setHeightPixels(Integer heightPixels) {
+        if (heightPixels < 0) {
+            throw new IllegalArgumentException("Высота должна быть неотрицательным числом");
+        }
+        this.heightPixels = heightPixels;
+    }
 
     public Converter(Double borderMinX, Double borderMaxX, Double borderMinY, Double borderMaxY) {
         this.border = new Border(borderMinX, borderMaxX, borderMinY, borderMaxY);
@@ -12,13 +27,8 @@ public class Converter {
     
     public Converter(Double borderMinX, Double borderMaxX, Double borderMinY, Double borderMaxY, Integer widthPixels, Integer heightPixels) {
         this(borderMinX, borderMaxX, borderMinY, borderMaxY);
-        if (widthPixels >= 0 && heightPixels >= 0) {
-            this.widthPixels = widthPixels;
-            this.heightPixels = heightPixels;
-        }
-        else {
-            throw new IllegalArgumentException("Ширина и высота должны быть >= 0px");
-        }
+        setWidthPixels(widthPixels);
+        setHeightPixels(heightPixels);
     }
     
     private Double getWidthPixelsDensity() {
