@@ -55,7 +55,10 @@ class ConverterTest {
     @Test
     void constructors(){
         new Converter(-1.0, 1.0, -1.0, 1.0);
-        new Converter(-3.0, -1.0, -3.0, 1.0, 100,100);
+        var converter = new Converter(-3.0, -1.0, -3.0, 1.0, 100,100);
+        
+        Assertions.assertEquals(100, converter.getWidthPixels());
+        Assertions.assertEquals(100, converter.getHeightPixels());
     }
 
     @Test

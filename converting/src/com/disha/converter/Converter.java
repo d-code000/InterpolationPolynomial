@@ -6,6 +6,14 @@ public class Converter {
 
     private int widthPixels = 0;
     private int heightPixels = 0;
+    
+    public int getWidthPixels(){
+        return widthPixels;
+    }
+    
+    public int getHeightPixels(){
+        return heightPixels;
+    }
 
     public void setWidthPixels(int widthPixels) {
         if (widthPixels < 0) {
