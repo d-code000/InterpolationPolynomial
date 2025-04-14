@@ -4,8 +4,8 @@ public class Converter {
     
     public final Border border;
 
-    private Integer widthPixels = 200;
-    private Integer heightPixels = 200;
+    private Integer widthPixels = 0;
+    private Integer heightPixels = 0;
 
     public void setWidthPixels(Integer widthPixels) {
         if (widthPixels < 0) {
