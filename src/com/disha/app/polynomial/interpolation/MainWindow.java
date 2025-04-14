@@ -21,6 +21,7 @@ public class MainWindow extends JFrame {
         setTitle("Построение графика полинома");
         setSize(width + 20, height + 120);
         setResizable(false);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
         
         converter = new Converter(xMin, xMax, yMin, yMax, width, height);
         drawPanel = new DrawPanel(width, height, converter);
