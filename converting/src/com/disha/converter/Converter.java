@@ -4,62 +4,62 @@ public class Converter {
     
     public final Border border;
 
-    private Integer widthPixels = 0;
-    private Integer heightPixels = 0;
+    private int widthPixels = 0;
+    private int heightPixels = 0;
 
-    public void setWidthPixels(Integer widthPixels) {
+    public void setWidthPixels(int widthPixels) {
         if (widthPixels < 0) {
             throw new IllegalArgumentException("Ширина должна быть неотрицательным числом");
         }
         this.widthPixels = widthPixels;
     }
     
-    public void setHeightPixels(Integer heightPixels) {
+    public void setHeightPixels(int heightPixels) {
         if (heightPixels < 0) {
             throw new IllegalArgumentException("Высота должна быть неотрицательным числом");
         }
         this.heightPixels = heightPixels;
     }
 
-    public Converter(Double borderMinX, Double borderMaxX, Double borderMinY, Double borderMaxY) {
+    public Converter(double borderMinX, double borderMaxX, double borderMinY, double borderMaxY) {
         this.border = new Border(borderMinX, borderMaxX, borderMinY, borderMaxY);
     }
     
-    public Converter(Double borderMinX, Double borderMaxX, Double borderMinY, Double borderMaxY, Integer widthPixels, Integer heightPixels) {
+    public Converter(double borderMinX, double borderMaxX, double borderMinY, double borderMaxY, int widthPixels, int heightPixels) {
         this(borderMinX, borderMaxX, borderMinY, borderMaxY);
         setWidthPixels(widthPixels);
         setHeightPixels(heightPixels);
     }
     
-    private Double getWidthPixelsDensity() {
+    private double getWidthPixelsDensity() {
         return widthPixels / (border.getMaxX() - border.getMinX());
     }
     
-    private Double getHeightPixelsDensity() {
+    private double getHeightPixelsDensity() {
         return heightPixels / (border.getMaxY() - border.getMinY());
     }
     
-    public Double xScr2Crt(Integer xPixels){
+    public double xScr2Crt(int xPixels){
         return border.getMinX() + (xPixels / getWidthPixelsDensity());
     }
     
-    public Double yScr2Crt(Integer yPixels){
+    public double yScr2Crt(int yPixels){
         return border.getMaxY() - (yPixels / getHeightPixelsDensity());
     }
     
-    public Integer xCrt2Scr(Double x){
+    public int xCrt2Scr(double x){
         return (int) Math.ceil((x - border.getMinX()) * getWidthPixelsDensity());
     }
     
-    public Integer yCrt2Scr(Double y) {
+    public int yCrt2Scr(double y) {
         return (int) Math.ceil((border.getMaxY() - y) * getHeightPixelsDensity());
     }
 
-    public Double xScr2CrtRatio(Integer xPixels) {
+    public double xScr2CrtRatio(int xPixels) {
         return xPixels / getWidthPixelsDensity();
     }
     
-    public Double yScr2CrtRatio(Integer yPixels) {
+    public double yScr2CrtRatio(int yPixels) {
         return yPixels / getHeightPixelsDensity();
     }
 }
