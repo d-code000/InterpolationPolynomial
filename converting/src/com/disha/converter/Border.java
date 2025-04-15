@@ -1,12 +1,12 @@
 package com.disha.converter;
 
-public class Border {
+public class Border implements Cloneable{
     private double xMin;
     private double xMax;
     private double yMin;
     private double yMax;
 
-    Border(double borderMinX, double borderMaxX, double borderMinY, double borderMaxY) {
+    public Border(double borderMinX, double borderMaxX, double borderMinY, double borderMaxY) {
         xMin = borderMinX;
         yMin = borderMinY;
         
@@ -63,6 +63,26 @@ public class Border {
         }
         else {
             throw new IllegalArgumentException("y_max <= y_min");
+        }
+    }
+     
+    // todo: add tests
+    public void xShift(double xShift){
+        xMin += xShift;
+        xMax += xShift;
+    }
+    
+    public void yShift(double yShift){
+        yMin += yShift;
+        yMax += yShift;
+    }
+
+    @Override
+    public Border clone() {
+        try {
+            return (Border) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
         }
     }
 }

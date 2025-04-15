@@ -2,7 +2,7 @@ package com.disha.converter;
 
 public class Converter {
     
-    public final Border border;
+    public Border border;
 
     private int widthPixels = 0;
     private int heightPixels = 0;
